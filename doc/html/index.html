@@ -1,0 +1,3129 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:mv="http://macVmlSchemaUri" xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta name=Title content="PyReshaper User's Manual.docx">
+<meta http-equiv=Content-Type content="text/html; charset=macintosh">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 14">
+<meta name=Originator content="Microsoft Word 14">
+<link rel=File-List href="PyReshaperUsersManual_files/filelist.xml">
+<link rel=Edit-Time-Data href="PyReshaperUsersManual_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>PyReshaper User's Manual.docx</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:LastAuthor>Kevin Paul</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>2</o:TotalTime>
+  <o:LastPrinted>2014-06-06T22:45:00Z</o:LastPrinted>
+  <o:Created>2014-06-06T22:46:00Z</o:Created>
+  <o:LastSaved>2014-06-06T22:46:00Z</o:LastSaved>
+  <o:Pages>10</o:Pages>
+  <o:Words>2650</o:Words>
+  <o:Characters>15111</o:Characters>
+  <o:Company>University Corporation for Atmospheric Research (UC</o:Company>
+  <o:Lines>125</o:Lines>
+  <o:Paragraphs>35</o:Paragraphs>
+  <o:CharactersWithSpaces>17726</o:CharactersWithSpaces>
+  <o:Version>14.0</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="PyReshaperUsersManual_files/themedata.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DisplayBackgroundShape/>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:PunctuationKerning/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>JA</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+  </w:Compatibility>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="276">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:Arial;
+	panose-1:2 11 6 4 2 2 2 2 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:-536859905 -1073711037 9 0 511 0;}
+@font-face
+	{font-family:"Courier New";
+	panose-1:2 7 3 9 2 2 5 2 4 4;
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:-536859905 -1073711037 9 0 511 0;}
+@font-face
+	{font-family:"Courier New";
+	panose-1:2 7 3 9 2 2 5 2 4 4;
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:-536859905 -1073711037 9 0 511 0;}
+@font-face
+	{font-family:"Trebuchet MS";
+	panose-1:2 11 6 3 2 2 2 2 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;}
+h1
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-font-kerning:0pt;
+	font-weight:normal;}
+h1.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-font-kerning:0pt;
+	font-weight:normal;}
+h1.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-font-kerning:0pt;
+	font-weight:normal;}
+h1.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-font-kerning:0pt;
+	font-weight:normal;}
+h2
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-bidi-font-weight:normal;}
+h2.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:10.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-bidi-font-weight:normal;}
+h2.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-bidi-font-weight:normal;}
+h2.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	mso-bidi-font-weight:normal;}
+h3.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	mso-bidi-font-weight:normal;}
+h3.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	mso-bidi-font-weight:normal;}
+h3.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	mso-bidi-font-weight:normal;}
+h4
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h4.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h4.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h4.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+h5
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;}
+h5.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;}
+h6
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+h6.CxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:8.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+h6.CxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+h6.CxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-priority:99;
+	mso-style-link:"Header Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 3.0in right 6.0in;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-priority:99;
+	mso-style-link:"Footer Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 3.0in right 6.0in;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:21.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;}
+p.MsoTitleCxSpFirst, li.MsoTitleCxSpFirst, div.MsoTitleCxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:21.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;}
+p.MsoTitleCxSpMiddle, li.MsoTitleCxSpMiddle, div.MsoTitleCxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:21.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;}
+p.MsoTitleCxSpLast, li.MsoTitleCxSpLast, div.MsoTitleCxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:21.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:black;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoSubtitleCxSpFirst, li.MsoSubtitleCxSpFirst, div.MsoSubtitleCxSpFirst
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoSubtitleCxSpMiddle, li.MsoSubtitleCxSpMiddle, div.MsoSubtitleCxSpMiddle
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoSubtitleCxSpLast, li.MsoSubtitleCxSpLast, div.MsoSubtitleCxSpLast
+	{mso-style-unhide:no;
+	mso-style-parent:normal;
+	mso-style-next:normal;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	mso-add-space:auto;
+	line-height:115%;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Trebuchet MS";
+	mso-fareast-font-family:"Trebuchet MS";
+	mso-bidi-font-family:"Trebuchet MS";
+	color:#666666;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.normal, li.normal, div.normal
+	{mso-style-name:normal;
+	mso-style-unhide:no;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;}
+span.HeaderChar
+	{mso-style-name:"Header Char";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:Header;}
+span.FooterChar
+	{mso-style-name:"Footer Char";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:Footer;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:11.0pt;
+	mso-ansi-font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-fareast-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;}
+.MsoPapDefault
+	{mso-style-type:export-only;
+	line-height:115%;}
+ /* Page Definitions */
+@page
+	{mso-footnote-separator:url(":PyReshaperUsersManual_files:header.htm") fs;
+	mso-footnote-continuation-separator:url(":PyReshaperUsersManual_files:header.htm") fcs;
+	mso-endnote-separator:url(":PyReshaperUsersManual_files:header.htm") es;
+	mso-endnote-continuation-separator:url(":PyReshaperUsersManual_files:header.htm") ecs;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-header:url(":PyReshaperUsersManual_files:header.htm") h1;
+	mso-footer:url(":PyReshaperUsersManual_files:header.htm") f1;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:267664796;
+	mso-list-template-ids:-1506880482;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:1.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:1.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:2.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:2.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l0:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:4.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1
+	{mso-list-id:898057309;
+	mso-list-template-ids:-600016358;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CF;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CB;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\25A0;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:1.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CF;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:1.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CB;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:2.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\25A0;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:2.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CF;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\25CB;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\25A0;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:4.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2
+	{mso-list-id:1592469029;
+	mso-list-template-ids:1196820488;}
+@list l2:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:1.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:1.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:2.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:2.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l2:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:4.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3
+	{mso-list-id:2121100532;
+	mso-list-template-ids:343069796;}
+@list l3:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:1.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:1.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:2.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:2.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.25in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:3.75in;
+	text-decoration:none;
+	text-underline:none;}
+@list l3:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:4.25in;
+	text-decoration:none;
+	text-underline:none;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a0
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a1
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a2
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a3
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a4
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a5
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a6
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a7
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a8
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.a9
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.aa
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.ab
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+table.ac
+	{mso-style-name:"";
+	mso-tstyle-rowband-size:1;
+	mso-tstyle-colband-size:1;
+	mso-style-unhide:no;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	color:black;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2051"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=white lang=EN-US style='tab-interval:.5in'>
+
+<div class=WordSection1>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.u54qjecdl52t></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.iuvaeqoeo4b4></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.gxfpphr9e8ls></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a name=h.mvfz321y5h5></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.5v4n4gdib1q4></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.da3ov4slkdk1></a><o:p>&nbsp;</o:p></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.l46ijtpl7mx9></a>The <span class=SpellE>PyReshaper</span></p>
+
+<p class=MsoTitle align=center style='text-align:center'><a
+name=h.pptk1vh2h6gj></a>User’s Manual</p>
+
+<p class=MsoSubtitle align=center style='text-align:center'><a
+name=h.amcov5mns0wg></a>(Version 0.9.0)</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal align=center style='text-align:center'>Kevin Paul<a
+style='mso-footnote-id:ftn1' href="#_ftn1" name="_ftnref1" title=""><sup><span
+style='mso-special-character:footnote'><![if !supportFootnotes]><sup><span
+style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;font-family:
+Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:windowtext;
+mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'>[1]</span></sup><![endif]></span></sup></a></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;
+mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br
+clear=all style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h1><a name=h.6ead979nnkr6></a>Table of Contents</h1>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal style='margin-left:.25in'><a href="#h.6ead979nnkr6"><span
+style='color:#1155CC'>Table of Contents</span></a></p>
+
+<p class=normal style='margin-left:.25in'><a href="#h.tecrkofgvwz"><span
+style='color:#1155CC'>What is it?</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.ais5len6kyzl"><span
+style='color:#1155CC'>Requirements</span></a></p>
+
+<p class=normal style='margin-left:.25in'><a href="#h.1vvgzmhvgmp9"><span
+style='color:#1155CC'>How can I get it?</span></a></p>
+
+<p class=normal style='margin-left:.25in'><a href="#h.sa5wiaivtt9x"><span
+style='color:#1155CC'>How do I set it up?</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.gf9cojxle4gc"><span
+style='color:#1155CC'>Installation</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.q6jqw2bu4oxn"><span
+style='color:#1155CC'>Generating the API Documentation</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.yqyj2eoqul3s"><span
+style='color:#1155CC'>Before Using the <span class=SpellE>PyReshaper</span></span></a></p>
+
+<p class=normal style='margin-left:.25in'><a href="#h.ym1tqgyvexl2"><span
+style='color:#1155CC'>How do I use it?</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.kh3bsclwnte3"><span
+style='color:#1155CC'>Some General Concepts</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.wgdl34olk3co"><span
+style='color:#1155CC'>Using the <span class=SpellE>PyReshaper</span> from
+within Python</span></a></p>
+
+<p class=normal style='margin-left:.75in'><a href="#h.jt9pxb1k5mu0"><span
+style='color:#1155CC'>Single-Stream Usage</span></a></p>
+
+<p class=normal style='margin-left:.75in'><a href="#h.slv0fyephfuu"><span
+style='color:#1155CC'>Multiple Stream Usage</span></a></p>
+
+<p class=normal style='margin-left:.75in'><a href="#h.phh38xjcy9zf"><span
+style='color:#1155CC'>Arguments to the <span class=SpellE>create_<span
+class=GramE>reshaper</span></span><span class=GramE>(</span>) Function</span></a></p>
+
+<p class=normal style='margin-left:.75in'><a href="#h.q6mvt3sd5z1h"><span
+style='color:#1155CC'>Arguments to the <span class=GramE>convert(</span>)
+Function</span></a></p>
+
+<p class=normal style='margin-left:.5in'><a href="#h.ynzwhej1bxme"><span
+style='color:#1155CC'>Using the <span class=SpellE>PyReshaper</span> from the
+Unix Command-Line</span></a></p>
+
+<p class=normal style='margin-left:.75in'><a href="#h.eqmor8cz1tmc"><span
+style='color:#1155CC'>Additional Arguments to the slice2series Script</span></a></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;
+mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br
+clear=all style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h1><a name=h.tecrkofgvwz></a>What is it?</h1>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The <span class=SpellE>PyReshaper</span> is a tool for
+converting <span class=SpellE>NetCDF</span> time-slice formatted files into
+time-series format.<span style="mso-spacerun:yes">&nbsp; </span>It is written
+in Python as an easy-to-install package consisting of 4 Python modules.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.ais5len6kyzl></a>Requirements</h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The <span class=SpellE>PyReshaper</span> is built upon 2
+third-party Python packages, which separately depend upon other packages, as
+indicated below.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;line-height:150%;mso-list:l1 level1 lfo4'><![if !supportLists]><span
+style='mso-list:Ignore'>&#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><a href="https://www.pyngl.ucar.edu/Nio.shtml"><span
+class=SpellE><span style='color:#1155CC'>PyNIO</span></span></a> (v1.4.1)</p>
+
+<p class=normalCxSpMiddle style='margin-left:1.0in;mso-add-space:auto;
+text-indent:-17.95pt;line-height:150%;mso-list:l1 level2 lfo4'><![if !supportLists]><span
+style='mso-list:Ignore'>&#9675;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><a href="http://www.numpy.org/"><span class=SpellE><span
+class=GramE><span style='color:#1155CC'>numpy</span></span></span></a> (v1.4)</p>
+
+<p class=normalCxSpMiddle style='margin-left:1.0in;mso-add-space:auto;
+text-indent:-17.95pt;line-height:150%;mso-list:l1 level2 lfo4'><![if !supportLists]><span
+style='mso-list:Ignore'>&#9675;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><a href="http://www.unidata.ucar.edu/netcdf/"><span
+class=SpellE><span style='color:#1155CC'>NetCDF</span></span></a></p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;line-height:150%;mso-list:l1 level1 lfo4'><![if !supportLists]><span
+style='mso-list:Ignore'>&#9679;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><a href="http://mpi4py.scipy.org/"><span class=GramE><span
+style='color:#1155CC'>mpi4py</span></span></a> (v1.3)</p>
+
+<p class=normalCxSpMiddle style='margin-left:1.0in;mso-add-space:auto;
+text-indent:-17.95pt;line-height:150%;mso-list:l1 level2 lfo4'><![if !supportLists]><span
+style='mso-list:Ignore'>&#9675;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>A dynamic/shared library installation of MPI or MPI-2</p>
+
+<p class=normal style='line-height:150%'><o:p>&nbsp;</o:p></p>
+
+<p class=normal>No thorough testing has been done to show whether earlier
+versions of these dependencies will work with the <span class=SpellE>PyReshaper</span>.<span
+style="mso-spacerun:yes">&nbsp; </span>The versions listed have been shown to
+work, and it is assumed that later versions will continue to work.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h1><a name=h.1vvgzmhvgmp9></a>How can I get it?</h1>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The best way to obtain the <span class=SpellE>PyReshaper</span>
+code is to check it out from the UCAR subversion site, as shown below.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a border=1 cellspacing=0 cellpadding=0 width=468 style='border-collapse:
+ collapse;mso-table-layout-alt:fixed;border:none;mso-border-alt:solid #6FA8DC .75pt;
+ mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
+ .75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=SpellE><span class=GramE>svn</span></span> co </span><a
+  href="https://subversion.ucar.edu/asap/pyReshaper/tags/v0.9.0"><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#1155CC'>https://subversion.ucar.edu/asap/pyReshaper/tags/v0.9.0</span></a><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New"'> <span class=SpellE>pyReshaper</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>This is the most recent stable version of the source code.<span
+style="mso-spacerun:yes">&nbsp; </span>The trunk is also available for
+download, if you choose to have the most up-to-date version.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br clear=all
+style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h1><a name=h.sa5wiaivtt9x></a>How do I set it up?</h1>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.gf9cojxle4gc></a>Installation</h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In this section, we describe how to install the <span
+class=SpellE>PyReshaper</span> package on a <span class=SpellE>unix</span>-like
+system.<span style="mso-spacerun:yes">&nbsp; </span>The procedure is similar
+for a Mac, but we have not tested the package on Windows.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>As described in the previous section, first check out the
+source code from the subversion repository.<span
+style="mso-spacerun:yes">&nbsp; </span>On <span class=SpellE>unix</span>-like
+systems, the command is shown below.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a0 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=SpellE><span class=GramE>svn</span></span> co </span><a
+  href="https://subversion.ucar.edu/asap/pyReshaper/tags/v0.9.0"><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#1155CC'>https://subversion.ucar.edu/asap/pyReshaper/tags/v0.9.0</span></a><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New"'> <span class=SpellE>pyReshaper</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Enter into the newly created directory.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a1 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ cd <span
+  class=SpellE>pyReshaper</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The contents of the repository will look like the following.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a2 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=SpellE><span class=GramE>ls</span></span></span></p>
+  <p class=normal><span class=SpellE><span class=GramE><b style='mso-bidi-font-weight:
+  normal'><span style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New"'>apidoc</span></b></span></span><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New"'>/<span style="mso-spacerun:yes">&nbsp;
+  </span><b style='mso-bidi-font-weight:normal'>doc</b>/<span
+  style="mso-spacerun:yes">&nbsp; </span><span class=SpellE>Doxyfile</span><span
+  style="mso-spacerun:yes">&nbsp; </span>doxypy.py<span
+  style="mso-spacerun:yes">&nbsp; </span><span class=SpellE><b
+  style='mso-bidi-font-weight:normal'>pyreshaper</b></span>/<span
+  style="mso-spacerun:yes">&nbsp; </span>README<span
+  style="mso-spacerun:yes">&nbsp; </span><b style='mso-bidi-font-weight:normal'>scripts</b>/<span
+  style="mso-spacerun:yes">&nbsp; </span>setup.py<span
+  style="mso-spacerun:yes">&nbsp; </span><b style='mso-bidi-font-weight:normal'>tests</b>/</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>To install in package, type the following command from this
+directory.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a3 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=GramE>python</span> setup.py install --user</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>If you are a system administrator, you can leave off the ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>--user</span>’
+option, and the package will be installed in <span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>/<span class=SpellE>usr</span>/local</span>,
+by default.<span style="mso-spacerun:yes">&nbsp; </span>Alternatively, you may
+specify your own installation root directory with the ‘<span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>--prefix</span>’ option.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.bb10oqw0bjz9></a><o:p>&nbsp;</o:p></h2>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br clear=all
+style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.zbmm1712lpj0></a><o:p>&nbsp;</o:p></h2>
+
+<h2><a name=h.q6jqw2bu4oxn></a>Generating the API Documentation</h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>If you are a developer, you may find the <span class=SpellE>Doxygen</span>-generated
+API documentation helpful in understanding the design and functionality of the <span
+class=SpellE>PyReshaper</span> code.<span style="mso-spacerun:yes">&nbsp;
+</span>To generate this documentation, you must have <span class=SpellE>Doxygen</span>
+available and installed.<span style="mso-spacerun:yes">&nbsp; </span>If you do,
+the API documentation can be easily generated with the following command from
+the top-level <span class=SpellE>PyReshaper</span> directory.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a4 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=SpellE><span class=GramE>doxygen</span></span> <span class=SpellE>Doxyfile</span></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The API documentation will be placed in the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>apidoc</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>/html/</span>
+directory.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.yqyj2eoqul3s></a>Before Using the <span class=SpellE>PyReshaper</span></h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>After the <span class=SpellE>Pyreshaper</span> package has been
+installed using the procedure above, you must add the installation
+site-packages directory to your PYTHONPATH.<span
+style="mso-spacerun:yes">&nbsp; </span>If you installed with the ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>--user</span>’
+option, this means adding the ‘<span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>$HOME/<span class=GramE>.local</span>/lib/python2.X/site-packages</span>’
+directory to your PYTHONPATH.<span style="mso-spacerun:yes">&nbsp; </span>If
+you specified a different ‘<span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>--prefix</span>’ option, then you must point to that prefix
+directory.<span style="mso-spacerun:yes">&nbsp; </span>For bash users, this is
+done with the following command.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a5 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=GramE>export</span> PYTHONPATH=$PYTHONPATH:$PREFIX/lib/python2.X/site-packages</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><span class=GramE>where</span> the <span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>$PREFIX</span> is the root
+installation directory used when installing the <span class=SpellE>PyReshaper</span>
+package (<span style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$HOME/.local/</span>
+if using the ‘<span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>--user</span>’ option), and the value of ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>X</span>’
+will correspond to the version of Python used to install the <span
+class=SpellE>PyReshaper</span> package.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>If you want to use the command-line interface to the <span
+class=SpellE>PyReshaper</span>, you must also add the <span class=SpellE>PyReshaper</span>
+<span class=SpellE>executables</span> directory to your PATH.<span
+style="mso-spacerun:yes">&nbsp; </span>Like for the PYTHONPATH, this can be done
+with the following command.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command Line:</span></b></p>
+
+<table class=a6 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$ <span
+  class=GramE>export</span> PATH=$PATH:$PREFIX/bin</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.gnvotza1e5uw></a><o:p>&nbsp;</o:p></h2>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br clear=all
+style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.1howr7peb66q></a><o:p>&nbsp;</o:p></h2>
+
+<h1><a name=h.ym1tqgyvexl2></a>How do I use it?</h1>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.kh3bsclwnte3></a>Some General Concepts</h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Before we describe the various ways you can use the <span
+class=SpellE>PyReshaper</span>, we must describe more about what, precisely,
+the <span class=SpellE>PyReshaper</span> is designed to do.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>As we’ve already mentioned, the <span class=SpellE>PyReshaper</span>
+is designed to convert a set of <span class=SpellE>NetCDF</span> files from <i
+style='mso-bidi-font-style:normal'>time-slice</i> format to <i
+style='mso-bidi-font-style:normal'>time-series</i> format.<span
+style="mso-spacerun:yes">&nbsp; </span>This statement contains a number of
+assumptions that pertain to the time-slice (input) data, which we list below.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Each time-slice <span class=SpellE>NetCDF</span> file
+has multiple <i style='mso-bidi-font-style:normal'>time-dependent</i> variables
+inside it, but can have many time-independent variables inside it, as well.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Each time-slice <span class=SpellE>NetCDF</span> file
+contains data for times that do not overlap with each other.<span
+style="mso-spacerun:yes">&nbsp; </span>(That is, each time-slice <span
+class=SpellE>NetCDF</span> file can contain data spanning a number of simulation
+time steps.<span style="mso-spacerun:yes">&nbsp; </span>However, the span of
+time contained in one time slice cannot overlap the span of time in another
+time-slice.)</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l0 level1 lfo1'><![if !supportLists]><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Every time-slice <span class=SpellE>NetCDF</span> file
+contains the same time-dependent variables, just at differing times.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Similarly, there are a number of assumptions made about the <i
+style='mso-bidi-font-style:normal'>time-series</i> data produced by the <span
+class=SpellE>PyReshaper</span> conversion process.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l2 level1 lfo3'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>By default, every time-dependent variable will be
+written to its own time-series <span class=SpellE>NetCDF</span> file.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l2 level1 lfo3'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Any time-dependent variables that should be included in
+every time-series file (e.g., such as ‘time’ itself), instead of getting their
+own time-series file, must be specified by name.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l2 level1 lfo3'><![if !supportLists]><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Every time-independent variable that appears in the
+time-slice files will be written to every time-series file.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l2 level1 lfo3'><![if !supportLists]><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Every time-series file written by the <span
+class=SpellE>PyReshaper</span> will span the total range of time spanned by all
+time-slice files specified.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l2 level1 lfo3'><![if !supportLists]><span
+style='mso-list:Ignore'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Every time-series file will be named with the same <i
+style='mso-bidi-font-style:normal'>prefix</i> and <i style='mso-bidi-font-style:
+normal'>suffix</i>, according to the rule:</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<table class=a7 border=1 cellspacing=0 cellpadding=0 width=386
+ style='margin-left:51.75pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ border:none;mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:.75pt solid #6FA8DC;
+ mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=386 valign=top style='width:385.5pt;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New"'>time</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New"'>_series_filename</span></span><span style='font-size:10.0pt;
+  font-family:"Courier New";mso-fareast-font-family:"Courier New"'> = prefix + <span
+  class=SpellE>variable_name</span> + suffix</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal style='margin-left:.5in'><span class=GramE>where</span> the <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>variable_name</span></span> is the name of the time-dependent
+variable associated with that time-series file.<span
+style="mso-spacerun:yes">&nbsp; </span></p>
+
+<p class=normal style='margin-left:.5in'><o:p>&nbsp;</o:p></p>
+
+<p class=normal>It is important to understand the implications of the last
+assumption on the list above.<span style="mso-spacerun:yes">&nbsp;
+</span>Namely, it is important to note what this assumption means in terms of <span
+class=SpellE>NetCDF</span> file-naming conventions.<span
+style="mso-spacerun:yes">&nbsp; </span>It is common for the file-name to
+contain information that pertains to the time-sampling frequency of the data in
+the file, or the range of time spanned by the time-series file, or any number
+of other things.<span style="mso-spacerun:yes">&nbsp; </span><i
+style='mso-bidi-font-style:normal'>To conform to such naming conventions, it
+may be required that the total set of time-slice files that the user which to
+convert to time-series be given to the <span class=SpellE>PyReshaper</span> in
+multiple subsets, or chunks.</i><span style="mso-spacerun:yes">&nbsp;
+</span>Throughout this manual, we will refer to such “chunks’ as <b
+style='mso-bidi-font-weight:normal'>streams</b>.<span
+style="mso-spacerun:yes">&nbsp; </span>As such, every single <span
+class=SpellE>PyReshaper</span> operation is designed to act on a <b
+style='mso-bidi-font-weight:normal'>single stream</b>.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.wgdl34olk3co></a>Using the <span class=SpellE>PyReshaper</span>
+from within Python</h2>
+
+<p class=normal><span style='font-size:8.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+<p class=normal>Obviously, one of the advantages of writing the <span
+class=SpellE>PyReshaper</span> in Python is that it is easy to import features
+(modules) of the <span class=SpellE>PyReshaper</span> into your own Python
+code, as you might link your own software tools to an external third-party
+library.<span style="mso-spacerun:yes">&nbsp; </span>The library API for the <span
+class=SpellE>PyReshaper</span> is designed to be simple and <span class=GramE>light-weight</span>,
+making it easy to use in your own Python tools or scripts.</p>
+
+<p class=normal><span style='font-size:8.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+<h3><a name=h.jt9pxb1k5mu0></a>Single-Stream Usage</h3>
+
+<p class=normal><span style='font-size:8.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+<p class=normal>Below, we show an example of how to use the <span class=SpellE>PyReshaper</span>
+from within Python to convert a <b style='mso-bidi-font-weight:normal'>single
+stream</b> from time-slice format to time-series format.</p>
+
+<p class=normal><span style='font-size:8.0pt;line-height:115%'><o:p>&nbsp;</o:p></span></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Python Source:<span
+style="mso-spacerun:yes">&nbsp; </span>Single-Stream Example</span></b></p>
+
+<table class=a8 border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=GramE><span style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>from</span></span><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'> <span class=SpellE>pyreshaper</span>
+  import specification, <span class=SpellE>reshaper</span></span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:8.0pt;line-height:150%'><o:p>&nbsp;</o:p></span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># Create a <span
+  class=SpellE>Specifier</span> object (that defined a single stream to be
+  converted)</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier</span></span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>specification.create_specifier</span>()</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:8.0pt;line-height:150%'><o:p>&nbsp;</o:p></span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># Specify the input
+  needed to perform the <span class=SpellE>PyReshaper</span> conversion</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.input</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_list</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = [ ‘/path/to/infile1.nc’,</span></p>
+  <p class=normal style='margin-left:2.5in;line-height:150%;mso-pagination:
+  none'><span style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>‘/path/to/infile2.nc’<span
+  class=GramE>, ...]</span></span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.netcdf</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_format</span></span><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = ‘netcdf4c’</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.output</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_prefix</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = ‘/path/to/<span class=SpellE>outfile_prefix</span>.’</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.output</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_suffix</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = ‘.000101-001012.nc’</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.time</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_variant_metadata</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = [‘time’, ‘<span class=SpellE>time_bounds</span>’, ...]</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:8.0pt;line-height:150%'><o:p>&nbsp;</o:p></span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Create the <span class=SpellE>Reshaper</span>
+  object</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr</span></span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'> = <span class=SpellE>reshaper.create_reshaper</span>(<span
+  class=SpellE>specifier</span>, serial=False, verbosity=1)</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:8.0pt'><o:p>&nbsp;</o:p></span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Run the conversion (slice-to-series) process</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr.convert</span></span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>()</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Print timing diagnostics</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr.print</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_diagnostics</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>()</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In the above example, it is important to understand the input
+given to the <span class=SpellE>PyReshaper</span>.<span
+style="mso-spacerun:yes">&nbsp; </span>Namely, all of the input for this single
+stream is contained by a single instantiation of a <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+object (the code for which is defined in the <span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>specification</span> module).<span
+style="mso-spacerun:yes">&nbsp; </span>We will describe each attribute of the <span
+class=SpellE>Specifier</span> object below.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><span class=SpellE><b style='mso-bidi-font-weight:normal'><span
+style='font-size:8.0pt;mso-bidi-font-size:10.0pt;line-height:115%;font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></b></span><b
+style='mso-bidi-font-weight:normal'><span style='font-size:8.0pt;mso-bidi-font-size:
+10.0pt;line-height:115%'> Object Attributes</span></b></p>
+
+<table class=a9 border=1 cellspacing=0 cellpadding=0 width=464
+ style='margin-left:.75pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ border:none;mso-border-alt:solid #D9D9D9 1.0pt;mso-yfti-tbllook:1536;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:1.0pt solid #D9D9D9;
+ mso-border-insidev:1.0pt solid #D9D9D9'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=142 valign=top style='width:141.75pt;border:solid #D9D9D9 1.0pt;
+  padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>input</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_file_list</span></span></p>
+  </td>
+  <td width=322 valign=top style='width:321.75pt;border:solid #D9D9D9 1.0pt;
+  border-left:none;mso-border-left-alt:solid #D9D9D9 1.0pt;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'>This specifies a list of input
+  (time-slice) file paths that all conform to the input file assumptions
+  (described above).<span style="mso-spacerun:yes">&nbsp; </span>The list of
+  input files need not be time-ordered, as the <span class=SpellE>PyReshaper</span>
+  will order them appropriately.<span style="mso-spacerun:yes">&nbsp;
+  </span>(This means that <span class=GramE>this list can easily be generated
+  by using filename globs</span>.)</p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal'>In the example above, each file
+  path is full and absolute, for safety’s sake.</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=142 valign=top style='width:141.75pt;border:solid #D9D9D9 1.0pt;
+  border-top:none;mso-border-top-alt:solid #D9D9D9 1.0pt;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>netcdf</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_format</span></span></p>
+  </td>
+  <td width=322 valign=top style='width:321.75pt;border-top:none;border-left:
+  none;border-bottom:solid #D9D9D9 1.0pt;border-right:solid #D9D9D9 1.0pt;
+  mso-border-top-alt:solid #D9D9D9 1.0pt;mso-border-left-alt:solid #D9D9D9 1.0pt;
+  padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'>This is a string specifying what <span
+  class=SpellE>NetCDF</span> format will be used to write the output
+  (time-series) files.</p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal'>In the above example, NetCDF4 with
+  level-1 compression is requested.</p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal'>Acceptable Options are:</p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='margin-left:.5in;line-height:normal'><span
+  style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>‘<span
+  class=SpellE><span class=GramE>netcdf</span></span><span class=GramE>’</span></span>:<span
+  style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>NetCDF3</p>
+  <p class=normal style='margin-left:.5in;line-height:normal'><span
+  style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>‘<span
+  class=GramE>netcdf4’</span></span>:<span
+  style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp; </span>NetCDF4 uncompressed</p>
+  <p class=normal style='margin-left:.5in;line-height:normal'><span
+  style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>‘<span
+  class=GramE>netcdf4c’</span></span>:<span style="mso-spacerun:yes">&nbsp;
+  </span>NetCDF4 compressed (level 1)</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=142 valign=top style='width:141.75pt;border:solid #D9D9D9 1.0pt;
+  border-top:none;mso-border-top-alt:solid #D9D9D9 1.0pt;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>output</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_file_prefix</span></span></p>
+  </td>
+  <td width=322 valign=top style='width:321.75pt;border-top:none;border-left:
+  none;border-bottom:solid #D9D9D9 1.0pt;border-right:solid #D9D9D9 1.0pt;
+  mso-border-top-alt:solid #D9D9D9 1.0pt;mso-border-left-alt:solid #D9D9D9 1.0pt;
+  padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'>This is a string specifying the
+  common output (time-series) filename prefix.<span
+  style="mso-spacerun:yes">&nbsp; </span>It is assumed that each time-series
+  file will be named according to the rule:</p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal'><span class=GramE><span
+  style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>filename</span></span><span
+  style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'> =
+  prefix + <span class=SpellE>variable_name</span> + suffix</span></p>
+  <p class=normal style='line-height:normal'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal'>It is important to understand, as
+  in the example above, that the prefix can include the full, absolute path
+  information for the output (time-series) files.</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=142 valign=top style='width:141.75pt;border:solid #D9D9D9 1.0pt;
+  border-top:none;mso-border-top-alt:solid #D9D9D9 1.0pt;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>output</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_file_suffix</span></span></p>
+  </td>
+  <td width=322 valign=top style='width:321.75pt;border-top:none;border-left:
+  none;border-bottom:solid #D9D9D9 1.0pt;border-right:solid #D9D9D9 1.0pt;
+  mso-border-top-alt:solid #D9D9D9 1.0pt;mso-border-left-alt:solid #D9D9D9 1.0pt;
+  padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'>This is a string specifying the
+  common output (time-series) filename suffix.<span
+  style="mso-spacerun:yes">&nbsp; </span>It is assumed that each time-series
+  file will be named according to the above rule.</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td width=142 valign=top style='width:141.75pt;border:solid #D9D9D9 1.0pt;
+  border-top:none;mso-border-top-alt:solid #D9D9D9 1.0pt;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'><span class=SpellE><span
+  class=GramE><span style='font-size:10.0pt;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>time</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_variant_metadata</span></span></p>
+  </td>
+  <td width=322 valign=top style='width:321.75pt;border-top:none;border-left:
+  none;border-bottom:solid #D9D9D9 1.0pt;border-right:solid #D9D9D9 1.0pt;
+  mso-border-top-alt:solid #D9D9D9 1.0pt;mso-border-left-alt:solid #D9D9D9 1.0pt;
+  padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:normal'>This specifies a list of variable
+  names corresponding to variables that should be written to <i
+  style='mso-bidi-font-style:normal'>every</i> output (time-series) <span
+  class=SpellE>NetCDF</span> file.</p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Even though the <span class=SpellE>PyReshaper</span> is
+designed to work on a single stream at a time, multiple streams can be defined
+as input to the <span class=SpellE>PyReshaper</span>.<span
+style="mso-spacerun:yes">&nbsp; </span>When running the <span class=SpellE>PyReshaper</span>
+with multiple <span class=GramE>stream</span>, multiple <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+objects must be created, one for each stream.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h3><a name=h.slv0fyephfuu></a>Multiple Stream Usage</h3>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In the example below, we show one way to define a multiple
+stream <span class=SpellE>PyReshaper</span> run.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Python Source:<span
+style="mso-spacerun:yes">&nbsp; </span>Multiple-Stream Example</span></b></p>
+
+<table class=aa border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=GramE><span style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>from</span></span><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'> <span class=SpellE>pyreshaper</span>
+  import specification, <span class=SpellE>reshaper</span></span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># Assuming all data
+  defining each stream is contained </span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># <span class=GramE>in</span>
+  a list called ‘streams’</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifiers</span></span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = {}</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><span
+  class=GramE><span style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'>for</span></span><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'> stream in streams:</span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier</span></span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>specification.create_specifier</span>()</span></p>
+  <p class=normal style='line-height:150%;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># Define the <span
+  class=SpellE>Pyreshaper</span> input for this stream</span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.input</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_list</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>stream.input_file_list</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.netcdf</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_format</span></span><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>stream.netcdf_format</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.output</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_prefix</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>stream.output_file_prefix</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.output</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_file_suffix</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>stream.output_file_suffix</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifier.time</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>_variant_metadata</span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'> = <span class=SpellE>stream.time_variant_metadata</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:150%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'># Append this <span
+  class=SpellE>Specifier</span> to the dictionary of <span class=SpellE>specifiers</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;line-height:
+  150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>specifiers</span></span></span><span style='font-size:10.0pt;
+  line-height:150%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>[stream.name] = <span class=SpellE>specifier</span></span></p>
+  <p class=normal style='margin-left:.5in;line-height:150%;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Create the <span class=SpellE>Reshaper</span>
+  object</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr</span></span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'> = <span class=SpellE>reshaper.create_reshaper</span>(<span
+  class=SpellE>specifiers</span>, serial=False, verbosity=1)</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Run the conversion (slice-to-series) process</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr.convert</span></span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>()</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><o:p>&nbsp;</o:p></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'># Print timing diagnostics</span></p>
+  <p class=normal style='line-height:normal;mso-pagination:none'><span
+  class=SpellE><span class=GramE><span style='font-size:10.0pt;font-family:
+  "Courier New";mso-fareast-font-family:"Courier New";color:#00387E'>rshpr.print</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>_diagnostics</span></span><span
+  style='font-size:10.0pt;font-family:"Courier New";mso-fareast-font-family:
+  "Courier New";color:#00387E'>()</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In the above example, we assume the properly formatted data
+(like the data shown in the single-stream example above) is contained in the
+list called ‘<span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>streams</span>’.<span style="mso-spacerun:yes">&nbsp; </span>In
+addition to the data needed by each <span class=SpellE><span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+(i.e., the data defining each stream), this example assumes that a name has
+been given to each stream, contained in the attribute ‘<span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>stream.name</span>’.<span
+style="mso-spacerun:yes">&nbsp; </span>Each <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+is then contained in a dictionary with keys corresponding to the stream name
+and values corresponding to the stream <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>.<span
+style="mso-spacerun:yes">&nbsp; </span>This name will be used when printing
+diagnostic information during the <span class=GramE><span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>convert(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+and <span class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>print_diagnostics</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>()</span> operations of the <span
+class=SpellE>PyReshaper</span>.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Alternatively, the <span class=SpellE><span class=GramE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>specifiers</span></span></span>
+object (in the above example) can be a Python list, instead of a Python
+dictionary.<span style="mso-spacerun:yes">&nbsp; </span>If this is the case,
+the list of <span class=SpellE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>Specifier</span></span> objects will be
+converted to a dictionary, with the keys of the dictionary corresponding to the
+list index (i.e., an integer).</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h3><a name=h.phh38xjcy9zf></a>Arguments to the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>create_<span
+class=GramE>reshaper</span></span></span><span class=GramE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+Function</h3>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In both examples above, the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Reshaper</span></span>
+object (<span class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>rshpr</span></span>) is created by passing the single <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>Specifier</span></span> object, list of <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+objects, or dictionary of named <span class=SpellE><span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+objects, to the function <span class=SpellE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>create_<span class=GramE>reshaper</span></span></span><span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span>.<span
+style="mso-spacerun:yes">&nbsp; </span>This function returns a <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>Reshaper</span></span> object that has the functions <span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>convert(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> and <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>print_diagnostics</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>()</span>
+that perform the time-slice to time-series conversion step and print useful
+timing diagnostics, respectively.<span style="mso-spacerun:yes">&nbsp; </span></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Additionally, the <span class=SpellE><span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>create_<span class=GramE>reshaper</span></span></span><span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> function takes the parameter ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>serial</span>’,
+which can be <span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>True</span> or <span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>False</span>, indicating whether the <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>Reshaper</span></span> <span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>convert()</span> step should be done in
+serial (<span style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>True</span>)
+or parallel (<span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>False</span>).<span style="mso-spacerun:yes">&nbsp; </span>By
+default, parallel operation is assumed if this parameter is not specified.<span
+style="mso-spacerun:yes">&nbsp; </span></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>The <span class=SpellE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>create_<span class=GramE>reshaper</span></span></span><span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> function also takes the
+parameter ‘<span style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>verbosity</span>’,
+which specified what level of output (to <span class=SpellE>stdout</span>) will
+be produced during the <span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>convert()</span> step.<span style="mso-spacerun:yes">&nbsp;
+</span>Currently, there are only three (3) verbosity levels:</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l3 level1 lfo2'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span class=GramE><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>verbosity</span></b></span><b
+style='mso-bidi-font-weight:normal'><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'> = 0</span></b>: This means that no
+output will be produced unless specifically requested (i.e., by calling the <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>print_diagnostics</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>()</span> function).</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l3 level1 lfo2'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span class=GramE><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>verbosity</span></b></span><b
+style='mso-bidi-font-weight:normal'><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'> = 1</span></b>: This means that only
+output that would be produced by the head rank of a parallel process will be
+generated.</p>
+
+<p class=normalCxSpMiddle style='margin-left:.5in;mso-add-space:auto;
+text-indent:-17.95pt;mso-list:l3 level1 lfo2'><![if !supportLists]><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span class=GramE><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>verbosity</span></b></span><b
+style='mso-bidi-font-weight:normal'><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'> = 2</span></b>: This means that all
+output from all processors will be generated, but any output that is the same
+on all processors will only be generated once.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>By setting the verbosity parameter in the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>create_<span
+class=GramE>reshaper</span></span></span><span class=GramE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+function to a value of 2 or above will result in the greatest amount of output.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h3><a name=h.wa7vbly0bnzq></a><o:p>&nbsp;</o:p></h3>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br clear=all
+style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h3><a name=h.owgq2v6nkga9></a><o:p>&nbsp;</o:p></h3>
+
+<h3><a name=h.q6mvt3sd5z1h></a>Arguments to the <span class=GramE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>convert(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+Function</h3>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>While not shown in the above examples, there is an argument to
+the <span class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>convert(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> function of the <span
+class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>Reshaper</span></span> object called ‘<span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>output_limit</span></span>’.<span
+style="mso-spacerun:yes">&nbsp; </span>This argument sets an integer limit on
+the number of time-series files generated during the <span class=GramE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>convert(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+operation (per processor).<span style="mso-spacerun:yes">&nbsp; </span>This can
+be useful for debugging purposes, as it can greatly reduce the length of time
+consumed in the <span class=GramE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>convert(</span></span><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>)</span>
+function.<span style="mso-spacerun:yes">&nbsp; </span>(A value of 0 indicates
+no limit, or all output <span class=GramE>file</span> will be generated.)</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h2><a name=h.ynzwhej1bxme></a>Using the <span class=SpellE>PyReshaper</span>
+from the Unix Command-Line</h2>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>While the most flexible way of using the <span class=SpellE>PyReshaper</span>
+is from within Python, as described above, it is also possible to run the <span
+class=SpellE>PyReshaper</span> from the command-line.<span
+style="mso-spacerun:yes">&nbsp; </span>In this section, we describe how to use
+the Python script <span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>slice2series</span>, which provides a command-line interface
+(CLI) to the <span class=SpellE>PyReshaper</span>.<span
+style="mso-spacerun:yes">&nbsp; </span>(This script will be installed in the <span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>$PREFIX/bin</span>
+directory, where <span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>PREFIX</span> is the installation root directory.)</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>Below is an example of how to use the <span class=SpellE>PyReshaper</span>
+CLI, <span style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>slice2series</span>,
+for a serial run.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command-Line Interface:
+Serial Example</span></b></p>
+
+<table class=ab border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='mso-pagination:none'><span style='font-size:10.0pt;
+  line-height:115%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>$ <span class=GramE>slice2series</span> --serial \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>netcdf</span>_format</span>=’netcdf4c’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>output</span>_prefix</span>=’/path/to/<span class=SpellE>outfile_prefix</span>.’
+  \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>output</span>_suffix</span>=’000101-001012.nc’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>-<span class=GramE>m</span>
+  ‘time’ -m ‘<span class=SpellE>time_bounds</span>’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>/path/to/infiles/*.nc</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In this example, you will note that we have specified each
+time-dependent metadata variable name with its own ‘<span style='font-family:
+"Courier New";mso-fareast-font-family:"Courier New"'>-m</span>’ option.<span
+style="mso-spacerun:yes">&nbsp; </span>(In this case, there are only 2, ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>time</span>’
+and ‘<span class=SpellE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>time_bounds</span></span>’.)<span
+style="mso-spacerun:yes">&nbsp; </span>We have also specified the list of input
+(time-slice) files using a <span class=GramE>wildcard, that</span> the Unix
+shell fills in with a list of all filenames that match this pattern.<span
+style="mso-spacerun:yes">&nbsp; </span>(In this case, it is all files with the
+‘<span class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>.<span class=SpellE>nc</span></span>’</span> file extension in
+the directory ‘<span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>/path/to/<span class=SpellE>infiles</span></span>’.)<span
+style="mso-spacerun:yes">&nbsp; </span>These command-line options and arguments
+specify all of the same input passed to the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>Specifier</span></span>
+objects in the previous examples.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>For parallel operation, one must launch the slice2series script
+from the appropriate MPI launcher.<span style="mso-spacerun:yes">&nbsp;
+</span>On the Yellowstone system (<span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>yellowstone.ucar.edu</span>), this is
+done with the following command.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;line-height:115%;
+font-family:Arial;mso-fareast-font-family:Arial;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US;mso-bidi-language:AR-SA'><br clear=all
+style='mso-special-character:line-break;page-break-before:always'>
+</span>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal><b style='mso-bidi-font-weight:normal'><span style='font-size:
+8.0pt;mso-bidi-font-size:10.0pt;line-height:115%'>Unix Command-Line Interface:
+Yellowstone Parallel Example</span></b></p>
+
+<table class=ac border=1 cellspacing=0 cellpadding=0 width=468
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid #6FA8DC .75pt;mso-yfti-tbllook:1536;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.75pt solid #6FA8DC;mso-border-insidev:.75pt solid #6FA8DC'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes'>
+  <td width=468 valign=top style='width:6.5in;border:solid #6FA8DC 1.0pt;
+  mso-border-alt:solid #6FA8DC .75pt;background:#EDF6FF;padding:5.0pt 5.0pt 5.0pt 5.0pt'>
+  <p class=normal style='mso-pagination:none'><span style='font-size:10.0pt;
+  line-height:115%;font-family:"Courier New";mso-fareast-font-family:"Courier New";
+  color:#00387E'>$ <span class=SpellE><span class=GramE>mpirun.lsf</span></span>
+  slice2series \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>netcdf</span>_format</span>=’netcdf4c’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>output</span>_prefix</span>=’/path/to/<span class=SpellE>outfile_prefix</span>.’
+  \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>--<span class=SpellE><span
+  class=GramE>output</span>_suffix</span>=’000101-001012.nc’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>-<span class=GramE>m</span>
+  ‘time’ -m ‘<span class=SpellE>time_bounds</span>’ \</span></p>
+  <p class=normal style='margin-left:1.0in;mso-pagination:none'><span
+  style='font-size:10.0pt;line-height:115%;font-family:"Courier New";
+  mso-fareast-font-family:"Courier New";color:#00387E'><span
+  style="mso-spacerun:yes">&nbsp;&nbsp; </span>/path/to/infiles/*.nc</span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>In the above example, this will launch the <span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>slice2series</span>
+script into the MPI environment already created by either a request for an
+interactive session or from an LSF submission script.</p>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<h3><a name=h.eqmor8cz1tmc></a>Additional Arguments to the <span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>slice2series</span>
+Script</h3>
+
+<p class=normal><o:p>&nbsp;</o:p></p>
+
+<p class=normal>While the basic options shown in the previous two (2) examples
+above are sufficient for most purposes, two additional options are
+available.<span style="mso-spacerun:yes">&nbsp; </span>The ‘<span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>--verbosity</span>’
+option can be used to set the verbosity level, just like the <span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>verbosity</span>
+argument to the <span class=SpellE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>create_<span class=GramE>reshaper</span></span></span><span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> function described in the
+previous sections.<span style="mso-spacerun:yes">&nbsp; </span>Additionally,
+the ‘<span style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>--limit</span>’
+command-line option can be used to set the <span class=SpellE><span
+style='font-family:"Courier New";mso-fareast-font-family:"Courier New"'>output_limit</span></span>
+argument of the <span class=SpellE><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>Reshaper</span></span> <span
+class=GramE><span style='font-family:"Courier New";mso-fareast-font-family:
+"Courier New"'>convert(</span></span><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'>)</span> function, also described in the
+previous sections.</p>
+
+</div>
+
+<div style='mso-element:footnote-list'><![if !supportFootnotes]><br clear=all>
+
+<hr align=left size=1 width="33%">
+
+<![endif]>
+
+<div style='mso-element:footnote' id=ftn1>
+
+<p class=normal style='line-height:normal'><a style='mso-footnote-id:ftn1'
+href="#_ftnref1" name="_ftn1" title=""><sup><span style='mso-special-character:
+footnote'><![if !supportFootnotes]><sup><span style='font-size:11.0pt;
+mso-bidi-font-size:10.0pt;line-height:115%;font-family:Arial;mso-fareast-font-family:
+Arial;color:windowtext;mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'>[1]</span></sup><![endif]></span></sup></a><span
+style='font-size:10.0pt'> kpaul@ucar.edu</span></p>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
