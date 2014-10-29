@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<config_definition>
+
+<!-- ======================================================================= -->
+<!-- env_tseries.xml                                                         -->
+<!-- ======================================================================= -->
+
+<entry id="FILE_TYPE" == PIO_TYPENAME
+ type="char"
+ valid_values="netcdf,pnetcdf,netcdf4p,netcdf4c,default"
+ value="netcdf" 
+ group="run_pio"
+ sdesc="pio io type"
+></entry> 
+
+<entry id="TSERIES_INPUT_DIRECTORY" == DOUT_S_ROOT/[component]/hist
+ type="char" 
+ valid_values="" 
+ value="/glade/u/tdd/asap/data/b.e12.B1850C5CN.ne30_g16.init.ch.027/atm/hist/"
+ group="run_tseries" 
+ sdesc="input directory for time-series generator time-slice history files"
+ ldesc="
+Root directory where component time-slice history files are located for
+the time-series generator to read." 
+></entry> 
+
+<entry id="TSERIES_OUTPUT_DIRECTORY" == DOUT_S_ROOT/[component]/tseries
+ type="char" 
+ valid_values="" 
+ value="/glade/scratch/mickelso/Data/CAMSE-1deg/"
+ group="run_tseries" 
+ sdesc="output directory for time-series generator variable time-series files"
+ ldesc="
+Root directory where component variable time-series history files are located
+that are output by the time-series generator." 
+></entry> 
+
+<entry id="TSERIES_IN_TIME_FORMAT"
+ type="char" 
+ valid_values="yyyy-mm-dd-hhhh" 
+ value="yyyy-mm-dd-hhhh"
+ group="run_tseries" 
+ sdesc="Time-slice history file input date/time format mask for the time-series generator"
+ ldesc="
+The variable time-series generator expects the input time-slice history file names to follow the most
+current CESM output filename requirements and conventions including the use of a date/time mask 
+as part of the filename."
+></entry> 
+
+
+<entry id="TSERIES_OUT_TIME_FORMAT"
+ type="char" 
+ valid_values="yyyymmdd" 
+ value="yyyymmdd yyyymmddZ"
+ group="run_tseries" 
+ sdesc="Variable time-series generator output file date/mask format."
+ ldesc="
+The variable time-series generator outputs files that correspond to the 
+current CESM output filename requirements and conventions including the use of a date/time mask 
+as part of the filename."
+></entry> 
+
+

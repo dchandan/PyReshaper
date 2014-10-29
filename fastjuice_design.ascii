@@ -1,0 +1,55 @@
+fastjuice
+
+        -f, --orig      Original datafile
+        --recon         Reconstructed datafile
+
+        -m $method      Applies a compression algorithm and creates the reconstructed dataset
+                        Current supported values of $method are: grib2, fpzip32, fpzip24, fpzip16, netcdf4
+
+        --genfile       If set to be true then will generate an output file with the reconstructed data
+
+        --max           Prints out the maximum value in field
+
+                        dst_a3SF : orig max             : 1.013680e-06
+
+        --min           Prints out the minimum value in field
+
+                        dst_a3SF : orig max             : 0.000000e+00
+
+        --std           Prints out the standard deviation in field
+
+                        dst_a3SF : orig stddev          : 7.898270e-09
+
+        --mean,--avg    Prints out the mean in field
+
+                        dst_a3SF : orig avg             : 3.779900e-10
+
+        --corr          Calculates the Pearson Correlation
+
+                        dst_a3SF : grib2 corr           : 1.000000e+00
+
+        --rmse          Caculates the average error
+
+                        dst_a3SF : grib2 nrmse          : 4.684170e-08
+
+        --maxnorm       Calculates the maximum error
+
+                        dst_a3SF : grib2 maxnorm        : 4.931060e-07
+
+        --maxnormens    Calculates the RMSE ensemble
+
+                        dst_a3SF : ensmax min max       : 2.126160e-01 5.174870e-01
+
+        --rmsz          Calculates the RMS-Z score
+
+                        dst_a3SF : isabela05 ens zscore : 9.594090e-01
+
+        --rmszens       Calcualtes the RMS-Z ensemble
+
+                        dst_a1SF : ens min max          : 7.493960e-01 1.382760e+00
+
+        --bias          Calculates the Bias test
+
+                        dst_a3SF : grib2 intercep       : -3.132878e-04 3.608745e-03
+                        dst_a3SF : grib2 slope          : 9.963681e-01 1.000197e+00
+

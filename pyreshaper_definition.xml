@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pyreshaper>
+
+	<!-- A configuration "definition" specifies all of the different options -->
+	<!-- with "option" tags. The "id" attribute of the definition can be used-->
+	<!-- to define different configuration definition.  In this case, there  -->
+	<!-- is only one configuration, so the "id" tag is not necessary (though -->
+	<!-- we specify id="0", none-the-less).  If additional definitions are   -->
+	<!-- supplied, they must be complete or ammend a previous definition.  If-->
+	<!-- a definition is an ammendment, then it must have a "ref" attribute  -->
+	<!-- with a value equal to the "id" attribute of the definition that is  -->
+	<!-- ammended.  Ammendments override previously defined options.         -->
+	
+	<definition id="0">
+		
+		<!-- Within each option tag, the children tags "name" and "type" are -->
+		<!-- required to specify the variable name associated with the option-->
+		<!-- and the data type of the variable, respecitively.               -->
+		<!--                                                                 -->
+		<!-- The "name" text can be anyvalid variable name, and the "type"   -->
+		<!-- text can be one of "str", "int", or "path".  For "path" type    -->
+		<!-- options, a check on whether the path is valid will be done in   -->
+		<!-- addition to any validity checks specified (see below).          -->
+		<!--                                                                 -->
+		<!-- The optional tags "default" and "validity" can be specified if  -->
+		<!-- necessary.  The "default" tag is used to specify a default value-->
+		<!-- for the option.  This value should conform to the "type" given, -->
+		<!-- or the pyReshaperUI will fail to parse the user input.  If the  -->
+		<!-- "default" tag is not present, then it is assumed that the user  -->
+		<!-- is REQUIRED to specify the option.                              -->
+		<!--                                                                 -->
+		<!-- The "validity" is used to define valid option values.  The      -->
+		<!-- "validity" tag can have children "choice", "minimum", and/or    -->
+		<!-- "maximum" that indicate validity conditions.  Each "choice" tag -->
+		<!-- should contain a single possible valid option value.  Each      -->
+		<!-- "minimum"/"maximum" tag should specify a minimum/maximum valid  -->
+		<!-- option value.  If multiple "choice" or "minimum"/"maximum" tags -->
+		<!-- are present, then an option value will be assumed valid if ANY  -->
+		<!-- validity conditions are true.  Multiple "validity" tags can be  -->
+		<!-- included, however, and each "validity" tag is assumed to define -->
+		<!-- a different set of validity conditions.  If ALL of the present  -->
+		<!-- sets of validity conditions are true, then the option value is  -->
+		<!-- assumed valid.  If no "validity" tags are present, than all     -->
+		<!-- values are assumed valid.                                       -->
+		<!--                                                                 -->
+		<!-- The "option" tag can take an attribute "unique" that can be     -->
+		<!-- "True" or "False".  Indicating "unique == False" means that     -->
+		<!-- if multiple options of the same name are given by the user, then-->
+		<!-- all of these values are appended to a list.  Indicating         -->
+		<!-- "unique == True" means that if multiple options of the same name-->
+		<!-- are given by the user, then the last value will overwrite the   -->
+		<!-- previous value.  (In other words, "unique = False" generates an -->
+		<!-- array of value options, while "unique = True" assumes a scalar  -->
+		<!-- option value.  The default is "True" (scalar).                  -->
+
+		<option>
+			<name>file_type</name>
+			<type>str</type>
+			<default>netcdf4</default>
+			<validity>
+				<choice>netcdf</choice>
+				<choice>netcdf4</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>input_type</name>
+			<type>str</type>
+			<default>timeslice</default>
+			<validity>
+				<choice>timeslice</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>output_type</name>
+			<type>str</type>
+			<default>timeseries</default>
+			<validity>
+				<choice>timeseries</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>input_directory</name>
+			<type>path</type>
+		</option>
+
+		<option>
+			<name>output_directory</name>
+			<type>path</type>
+		</option>
+
+		<option>
+			<name>input_time_format</name>
+			<type>str</type>
+			<validity>
+				<choice>YYYY</choice>
+				<choice>YYYY-MM</choice>
+				<choice>YYYY-MM-DD</choice>
+				<choice>YYYY-MM-DD-SSSSS</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>output_time_format</name>
+			<type>str</type>
+			<validity>
+			<choice>YYYY</choice>
+			<choice>YYYYMM</choice>
+			<choice>YYYYMMDD</choice>
+			<choice>YYYYMMDDSSSSS</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>start_time</name>
+			<type>str</type>
+		</option>
+
+		<option>
+			<name>end_time</name>
+			<type>str</type>
+		</option>
+
+		<option>
+			<name>root_name</name>
+			<type>str</type>
+		</option>
+
+		<option>
+			<name>output_time_option</name>
+			<type>str</type>
+			<validity>
+				<choice>nstep</choice>
+				<choice>nsteps</choice>
+				<choice>nsecond</choice>
+				<choice>nseconds</choice>
+				<choice>nminute</choice>
+				<choice>nminutes</choice>
+				<choice>nhour</choice>
+				<choice>nhours</choice>
+				<choice>nday</choice>
+				<choice>ndays</choice>
+				<choice>nmonth</choice>
+				<choice>nmonths</choice>
+				<choice>nyear</choice>
+				<choice>nyears</choice>
+			</validity>
+		</option>
+
+		<option>
+			<name>output_time_n</name>
+			<type>int</type>
+			<validity>
+				<minimum>1</minimum>
+			</validity>
+		</option>
+
+		<option unique="False">
+			<name>meta_vars</name>
+			<type>str</type>
+		</option>
+
+	</definition>
+
+</pyreshaper>

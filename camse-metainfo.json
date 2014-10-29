@@ -1,0 +1,6 @@
+{
+"TimeVarient": ["ch4vmr","co2vmr","date","date_written","datesec","f11vmr","f12vmr",
+                    "n2ovmr","ndcur","nscur","nsteph","sol_tsi","time","time_bnds","time_written"],
+"TimeInvarient": ["P0","area","hyai","hyam","hybi","hybm","ilev","lat","lev","lon","mdt",
+                      "nbdate","nbsec","ndbase","nsbase","ntrk","ntrm","ntrn"]
+}

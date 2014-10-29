@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pyreshaper>
+	<config id="1397684653">
+		<file_type>netcdf4</file_type>
+		<input_type>timeslice</input_type>
+		<output_type>timeseries</output_type>
+		<input_directory>/foo/bar/hist</input_directory>
+		<output_directory>/foo/bar/tseries</output_directory>
+		<input_time_format>YYYY-MM-DD</input_time_format>
+		<output_time_format>YYYYMMDD</output_time_format>
+		<start_time>0001-01-01</start_time>
+		<end_time>0010-12-01</end_time>
+		<root_name>my.run</root_name>
+		<input_time_period>mon</input_time_period>
+		<output_time_option>nmonths</output_time_option>
+		<output_time_n>2</output_time_n>
+		<compset>B1850C5</compset>
+		<grid>ne30_g16</grid>
+		<meta_vars>time</meta_vars>
+		<meta_vars>lat</meta_vars>
+		<meta_vars>lon</meta_vars>
+		<meta_vars>time_bounds</meta_vars>
+	</config>
+</pyreshaper>

@@ -1,0 +1,18 @@
+Compile python wrapper function of fpzip:
+
+It will compile setup.py myfpzip.pxd myfpzip.pyx:
+
+python setup.py build_ext -i
+
+Setup libfpzip.so path:
+
+setenv LD_LIBRARY_PATH fpzip-custom-version/lib":$LD_LIBRARY_PATH"
+
+
+Run fpzip method:
+python fastjuice.py --orig /glade/scratch/haiyingx/validation_tools/single_run_data.FC5/cesm1_1.FC5.ne30_g16.000.cam.h0.0001-01-01-00000.nc -m fpzip --prec 16 --maxnorm
+
+
+
+
+
