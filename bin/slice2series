@@ -12,6 +12,7 @@ See the LICENSE.txt file for details
 """
 
 import optparse
+import os.path as ospath
 from pyreshaper import specification
 from pyreshaper import reshaper
 
@@ -33,7 +34,7 @@ def cli():
     parser.add_option('-s', '--output_suffix', default='.nc',
                       help='String suffix for all output files.  The output file '
                            'will be named according to the rule: '
-                           'output_prefix + variable_name + output_suffix '
+                           'output_direc + output_prefix + variable_name + output_suffix '
                            '[Default: ".nc"]')
     parser.add_option('-m', '--metadata', action='append', default=[],
                       help='Names of a variable to be included in all output '
@@ -74,7 +75,7 @@ def cli():
 #==============================================================================
 # Main script
 #==============================================================================
-def main(options, input_file_list):
+def main(options, output_directory, input_file_list):
 
     # Create the input object for the Reshaper
     spec = specification.create_specifier()
@@ -85,6 +86,7 @@ def main(options, input_file_list):
     spec.output_file_prefix = options.output_prefix
     spec.output_file_suffix = options.output_suffix
     spec.time_variant_metadata = options.metadata
+    spec.output_directory = output_directory
 
     # Create the PyReshaper object
     reshpr = reshaper.create_reshaper(spec,
@@ -106,4 +108,17 @@ def main(options, input_file_list):
 #==============================================================================
 if __name__ == '__main__':
     options, input_file_list = cli()
-    main(options, input_file_list)
+
+    # Checking right away if input files specified
+    if input_file_list == []:
+      err_msg = "No input files specified"
+      raise ValueError(err_msg)
+
+    # Checking for output directories
+    output_directory = input_file_list[0]
+    if not ospath.isdir(output_directory):
+      err_msg = "Invalid output directory {0}. ".format(output_directory)
+      err_msg += "First positional argument must be the output directory."
+      raise ValueError(err_msg)
+
+    main(options, output_directory, input_file_list[1:])

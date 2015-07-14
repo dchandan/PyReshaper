@@ -13,7 +13,6 @@ See the LICENSE.txt file for details
 # Built-in imports
 from os import path as ospath
 
-
 #==============================================================================
 # create_specifier factory function
 #==============================================================================
@@ -48,6 +47,7 @@ class Specifier(object):
                  ncfmt='netcdf4c',
                  prefix='tseries.',
                  suffix='.nc',
+                 outdir=None,
                  metadata=[],
                  **kwargs):
         """
@@ -66,8 +66,9 @@ class Specifier(object):
                 data format ('netcdf','netcdf4','netcdf4c')
             prefix (str): String specifying the full-path prefix common
                 to all time-series output files
-            suffix (str): String specifying the suffix common
+            suffix (str): String specifying the (base filename) suffix common
                 to all time-series output files
+            outdir (str): Output directory
             metadata (list): List of variable names specifying the
                 variables that should be included in every
                 time-series output file
@@ -88,6 +89,9 @@ class Specifier(object):
         # The common suffix to all output files (following the rule:
         #  prefix + variable_name + suffix)
         self.output_file_suffix = suffix
+
+        # The directory where the output files will be placed
+        self.output_directory   = outdir
 
         # List of time-variant variables that should be included in all
         #  output files.
@@ -187,15 +191,20 @@ class Specifier(object):
                 + " is not valid"
             raise ValueError(err_msg)
 
+        
         # Validate the output file directory
-        abs_output_prefix = ospath.abspath(self.output_file_prefix)
-        abs_output_dir = ospath.dirname(abs_output_prefix)
-        if not ospath.isdir(abs_output_dir):
-            err_msg = "Output directory " + str(abs_output_dir) + \
-                " implied in output prefix " + \
-                str(self.output_file_prefix) + " is not valid"
+        invalid_chars = "/~!@#$%^&*():;?<>`+=[]{}"
+        for iv in invalid_chars:
+            if iv in self.output_file_prefix:
+                err_msg = "Character {0} not allowed in filename prefix".format(iv)
+                raise ValueError(err_msg)
+
+        if not ospath.isdir(self.output_directory):
+            err_msg = "Invalid output directory {0}".format(self.output_directory)
             raise ValueError(err_msg)
-        self.output_file_prefix = abs_output_prefix
+        
+        self.output_file_prefix = ospath.join(self.output_directory, \
+                                              self.output_file_prefix)
 
         # Validate the output file suffix string (should end in .nc)
         if (self.output_file_suffix[-3:] != '.nc'):
