@@ -179,16 +179,13 @@ class Specifier(object):
         # Validate that each input file exists and is a regular file
         for ifile_name in self.input_file_list:
             if not ospath.isfile(ifile_name):
-                err_msg = "Input file " + str(ifile_name) + \
-                          " is not a regular file"
+                err_msg = "Input file {0} is not a regular file".format(ifile_name)
                 raise ValueError(err_msg)
 
         # Validate the value of the netcdf format string
         valid_formats = ['netcdf', 'netcdf4', 'netcdf4c']
         if self.netcdf_format not in valid_formats:
-            err_msg = "Output NetCDF file format " \
-                + str(self.netcdf_format) \
-                + " is not valid"
+            err_msg = "Invalid output NetCDF file format {0}".format(self.netcdf_format)
             raise ValueError(err_msg)
 
         
