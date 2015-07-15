@@ -41,7 +41,7 @@ def cli():
                            'files.  There may be more than one --metadata (-m) '
                            'option given, and each one is appended to a list.  '
                            '[Default: none]')
-    parser.add_option('-d', '--deflate', default=3,
+    parser.add_option('-d', '--deflate', default=3, type=int,
                       help='Compression level for the output files. Only used '
                            'when netcdf_format = netcdf4c.'
                            '[Default: 3]')
@@ -80,7 +80,7 @@ def cli():
 # Main script
 #==============================================================================
 def main(options, output_directory, input_file_list):
-
+    
     # Create the input object for the Reshaper
     spec = specification.create_specifier(infiles=input_file_list,
                                           ncfmt=options.netcdf_format,
