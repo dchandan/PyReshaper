@@ -139,6 +139,12 @@ class Specifier(object):
             err_msg = "NetCDF format must be given as a string"
             raise TypeError(err_msg)
 
+        # Validate that format is compatible with compression
+        if (self.netcdf_format != "netcdf4c"):
+            if (self.netcdf_deflate != 0):
+                print("Warning: Ignoring compression because output file-format"
+                      "is '{0}'".format(self.netcdf_format))
+
         # Validate the output file prefix
         if not isinstance(self.output_file_prefix, str):
             err_msg = "Output file prefix must be given as a string"
