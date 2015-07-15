@@ -45,6 +45,7 @@ class Specifier(object):
     def __init__(self,
                  infiles=[],
                  ncfmt='netcdf4c',
+                 deflate=3,
                  prefix='tseries.',
                  suffix='.nc',
                  outdir=None,
@@ -64,6 +65,7 @@ class Specifier(object):
             infiles (list): List of full-path input filenames
             ncfmt (str): String specifying the NetCDF
                 data format ('netcdf','netcdf4','netcdf4c')
+            deflate (int): Compression level
             prefix (str): String specifying the full-path prefix common
                 to all time-series output files
             suffix (str): String specifying the (base filename) suffix common
@@ -81,6 +83,9 @@ class Specifier(object):
 
         # The string specifying the NetCDF file format for output
         self.netcdf_format = ncfmt
+
+        # Compression level for the output files
+        self.netcdf_deflate = deflate
 
         # The common prefix to all output files (following the rule:
         #  prefix + variable_name + suffix)

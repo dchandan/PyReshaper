@@ -304,7 +304,11 @@ class Slice2SeriesReshaper(Reshaper):
             opt.CompressionLevel = 0
         elif specifier.netcdf_format == 'netcdf4c':
             opt.Format = 'NetCDF4Classic'
-            opt.CompressionLevel = 1
+            opt.CompressionLevel = specifier.netcdf_deflate
+            if self._simplecomm.is_manager():
+                self._vprint('PyNIO compression level: {0}'.format(\
+                    specifier.netcdf_deflate), verbosity=2)
+
         self._nio_options = opt
         if self._simplecomm.is_manager():
             self._vprint('PyNIO options set', verbosity=2)
