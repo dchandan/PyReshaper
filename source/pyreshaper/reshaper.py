@@ -380,7 +380,7 @@ class Slice2SeriesReshaper(Reshaper):
         for dim in ifile.dimensions:
             if ifile.unlimited(dim):
                 self._unlimited_dim = dim
-                continue  # There can only be 1!
+                break  # There can only be 1!
         if self._unlimited_dim == None:
             err_msg = 'Unlimited dimension not identified.'
             raise LookupError(err_msg)
