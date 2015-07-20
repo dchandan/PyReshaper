@@ -17,7 +17,7 @@ import itertools
 # Third-party imports
 import Nio
 import numpy
-from asaptools.simplecomm import create_comm, SimpleComm
+from asaptools.simplecomm import create_comm, SimpleComm, SimpleCommMPI
 from asaptools.timekeeper import TimeKeeper
 from asaptools.partition import WeightBalanced
 from asaptools.vprinter import VPrinter
@@ -252,8 +252,10 @@ class Slice2SeriesReshaper(Reshaper):
             err_msg = "Once-file indicator must be True or False."
             raise TypeError(err_msg)
         if simplecomm is not None:
-            if simplecomm is not isinstance(simplecomm, SimpleComm):
-                err_msg = "Simple communicator object is not a SimpleComm"
+            if not (isinstance(simplecomm, SimpleComm) or \
+                    isinstance(simplecomm, SimpleCommMPI)):
+                err_msg = ("Simple communicator object is not a SimpleComm or ",
+                           "SimpleCommMPI")
                 raise TypeError(err_msg)
 
         # Whether to write a once file
