@@ -9,33 +9,28 @@ Copyright 2015, University Corporation for Atmospheric Research
 See the LICENSE.txt file for details
 """
 
+import os, glob
 import os.path as ospath
 from pyreshaper.specification import create_specifier
 from pyreshaper.reshaper import create_reshaper
 
 import argparse
 
+from PyCESM.case.CESMCase import CESMCase
+
 
 def cli():
-    parser = argparse.ArgumentParser(description="Convert CESM slices to series")
-    parser.add_argument("output_dir", type=str, action='store',
-                        help="Directory to write output files into")
-    parser.add_argument("input_files", type=str, nargs="+",
-                        help="Input files to process")
-    parser.add_argument('-f', '--netcdf_format', default='netcdf4c', type=str, action='store',
-                      choices=['netcdf', 'netcdf4', 'netcdf4c'],
-                      help='NetCDF file format to be used for all output files. '
-                           '[Default: "netcdf4c"]')
-    parser.add_argument('-p', '--output_prefix', default='tseries.', type=str, action='store',
-                      help='String prefix for all output files.  The output file '
-                           'will be named according to the rule: '
-                           'output_prefix + variable_name + output_suffix '
-                           '[Default: "tseries."]')
-    parser.add_argument('-s', '--output_suffix', default='.nc', type=str, action='store',
-                      help='String suffix for all output files.  The output file '
-                           'will be named according to the rule: '
-                           'output_direc + output_prefix + variable_name + output_suffix '
-                           '[Default: ".nc"]')
+    parser = argparse.ArgumentParser(prog="{0}: Convert CESM slice files to series files".format(__file__))
+    parser.add_argument('case',  type=str, help='CESM case name')
+    parser.add_argument('start', type=int, help='start year')
+    parser.add_argument('end',   type=int, help='end year')
+    parser.add_argument('model', type=str, choices=["atm", "lnd", "ocn", "ice"], help='models component to process')
+    parser.add_argument("odir",  type=str, action='store', help="Directory to write output files into")
+
+    # ncflags = parser.add_argument_group('nccopy flags')
+    # ncflags.add_argument('-d',   type=int, default=6, help="compression level")
+
+
     parser.add_argument('-m', '--metadata', type=str, nargs="+", default=[],
                       help='Names of a variable to be included in all output '
                            'files. '
@@ -80,14 +75,50 @@ def cli():
 # Main script
 #==============================================================================
 def main(args):
+    print("Configuration  >>>>>>>")
+    print("  Case name  : {0}".format(args.case))
+    print("  Model      : {0}".format(args.model))
+    print("  Start year : {0}".format(args.start))
+    print("  End year   : {0}".format(args.end))
+    print("  Compression: {0}".format(args.deflate))
+    print("  Verbosity  : {0}".format(args.verbosity))
+    print("<<<<<<<<<<<<<<<<<<<<<<")
+
+    # The CESM case object
+    case        = CESMCase(casename)
+
+    total_years = args.end - args.start + 1
+    years       = range(args.start, args.end + 1)
+    
+    # A mapping between model names and file corresponding file names
+    mtypes = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
+
+
+    #comp_direc = osp.join("/scratch/p/peltier/dchandan/ctest", model, "hist")
+    comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
+    os.chdir(comp_direc)
+
+    # Generating the list of files that need to be worked on
+    list_of_files = []
+    for year in years:
+        pattern = "{0}.{1}.h*.{2:04d}*.nc".format(args.case, mtypes[args.model], year)
+        list_of_files.extend(glob.glob(pattern))
+
+    print("+--------------------------------------+")
+    print("| Number of files to operate upon: {0:3d} |".format(len(list_of_files)))
+    print("+--------------------------------------+")
+
+    output_prefix = "tseries_{0}_{1}.".format(args.start, args.end)
+
+
     # Main run function for python 2.7
     # Create the input object for the Reshaper
-    spec = create_specifier(infiles=args.input_files,
-                            ncfmt=args.netcdf_format,
+    spec = create_specifier(infiles=list_of_files,
+                            ncfmt="netcdf4c",
                             deflate=args.deflate,
-                            prefix=args.output_prefix,
-                            suffix=args.output_suffix,
-                            outdir=args.output_dir,
+                            prefix=output_prefix,
+                            suffix=".nc",
+                            outdir=args.odir,
                             metadata=args.metadata)
 
     # Create the PyReshaper object
@@ -115,8 +146,8 @@ if __name__ == '__main__':
     # automatically taken care of by argparse
 
     # Checking for output directories
-    if not ospath.isdir(args.output_dir):
-      raise ValueError("Invalid output directory {0}. ".format(args.output_dir))
+    if not ospath.isdir(args.odir):
+      raise ValueError("Invalid output directory {0}. ".format(args.odir))
 
     main(args)
 
