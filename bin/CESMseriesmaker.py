@@ -16,15 +16,16 @@ from pyreshaper.reshaper import create_reshaper
 
 import argparse
 
+from asaptools.simplecomm import create_comm, SimpleComm
 from PyCESM.case.CESMCase import CESMCase
 
 
 def cli():
     parser = argparse.ArgumentParser(prog="{0}: Convert CESM slice files to series files".format(__file__))
     parser.add_argument('case',  type=str, help='CESM case name')
+    parser.add_argument('model', type=str, choices=["atm", "lnd", "ocn", "ice"], help='models component to process')
     parser.add_argument('start', type=int, help='start year')
     parser.add_argument('end',   type=int, help='end year')
-    parser.add_argument('model', type=str, choices=["atm", "lnd", "ocn", "ice"], help='models component to process')
     parser.add_argument("odir",  type=str, action='store', help="Directory to write output files into")
 
     # ncflags = parser.add_argument_group('nccopy flags')
@@ -75,41 +76,51 @@ def cli():
 # Main script
 #==============================================================================
 def main(args):
-    print("Configuration  >>>>>>>")
-    print("  Case name  : {0}".format(args.case))
-    print("  Model      : {0}".format(args.model))
-    print("  Start year : {0}".format(args.start))
-    print("  End year   : {0}".format(args.end))
-    print("  Compression: {0}".format(args.deflate))
-    print("  Verbosity  : {0}".format(args.verbosity))
-    print("<<<<<<<<<<<<<<<<<<<<<<")
+    simplecomm = create_comm(serial=args.serial)
+
+    if simplecomm.is_manager():
+      print("Configuration  >>>>>>>")
+      print("  Case name  : {0}".format(args.case))
+      print("  Model      : {0}".format(args.model))
+      print("  Start year : {0}".format(args.start))
+      print("  End year   : {0}".format(args.end))
+      print("  Compression: {0}".format(args.deflate))
+      print("  Verbosity  : {0}".format(args.verbosity))
+      print("<<<<<<<<<<<<<<<<<<<<<<")
 
     # The CESM case object
-    case        = CESMCase(casename)
+    case        = CESMCase(args.case)
 
     total_years = args.end - args.start + 1
     years       = range(args.start, args.end + 1)
     
     # A mapping between model names and file corresponding file names
     mtypes = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
+    freqtypes = {"atm":"h0", "lnd":"h0", "ocn":"h", "ice":"h"}
 
 
     #comp_direc = osp.join("/scratch/p/peltier/dchandan/ctest", model, "hist")
     comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
-    os.chdir(comp_direc)
+    # os.chdir(comp_direc)
 
     # Generating the list of files that need to be worked on
     list_of_files = []
     for year in years:
-        pattern = "{0}.{1}.h*.{2:04d}*.nc".format(args.case, mtypes[args.model], year)
+        pattern = "{0}/{1}.{2}.{3}.{4:04d}*.nc".format(comp_direc,
+                                                      args.case, 
+                                                      mtypes[args.model], 
+                                                      freqtypes[args.model], 
+                                                      year)
         list_of_files.extend(glob.glob(pattern))
 
-    print("+--------------------------------------+")
-    print("| Number of files to operate upon: {0:3d} |".format(len(list_of_files)))
-    print("+--------------------------------------+")
+    list_of_files.sort()
+
+    if simplecomm.is_manager():
+      print("+--------------------------------------+")
+      print("| Number of files to operate upon: {0:3d} |".format(len(list_of_files)))
+      print("+--------------------------------------+")
 
     output_prefix = "tseries_{0}_{1}.".format(args.start, args.end)
-
 
     # Main run function for python 2.7
     # Create the input object for the Reshaper
@@ -127,7 +138,8 @@ def main(args):
                              verbosity=args.verbosity,
                              skip_existing=args.skip_existing,
                              overwrite=args.overwrite,
-                             once=args.once)
+                             once=args.once,
+                             simplecomm=simplecomm)
 
     # Run the conversion (slice-to-series) process
     reshpr.convert(output_limit=args.limit)
