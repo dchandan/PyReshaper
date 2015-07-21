@@ -9,7 +9,20 @@ Copyright 2015, University Corporation for Atmospheric Research
 See the LICENSE.txt file for details
 """
 
-import os, glob
+try:
+    import Nio
+    nio_available = True
+except ImportError:
+    nio_available = False
+
+try:
+    import netCDF4
+    netcdf_available = True
+except ImportError:
+    netcdf_available = False
+
+
+import os, glob, sys
 import os.path as ospath
 from pyreshaper.specification import create_specifier
 from pyreshaper.reshaper import create_reshaper
@@ -21,6 +34,14 @@ from PyCESM.case.CESMCase import CESMCase
 
 
 def cli():
+    # Choices for the netCDF backend library
+    backend_choices = []
+    if netcdf_available: backend_choices.append("netcdf")
+    if nio_available: backend_choices.append("nio")
+    if not (nio_available or netcdf_available):
+        print("ERROR: Neither the PyNIO nor the netCDF4 backend library is installed.")
+        sys.exit(-1)
+
     parser = argparse.ArgumentParser(prog="{0}: Convert CESM slice files to series files".format(__file__))
     parser.add_argument('case',  type=str, help='CESM case name')
     parser.add_argument('model', type=str, choices=["atm", "lnd", "ocn", "ice"], help='models component to process')
@@ -28,10 +49,8 @@ def cli():
     parser.add_argument('end',   type=int, help='end year')
     parser.add_argument("odir",  type=str, action='store', help="Directory to write output files into")
 
-    # ncflags = parser.add_argument_group('nccopy flags')
-    # ncflags.add_argument('-d',   type=int, default=6, help="compression level")
-
-
+    parser.add_argument('--backend', type=str, choices=backend_choices, 
+                    default=backend_choices[0], help='netcdf backend to use')
     parser.add_argument('-m', '--metadata', type=str, nargs="+", default=[],
                       help='Names of a variable to be included in all output '
                            'files. '
@@ -84,6 +103,8 @@ def main(args):
       print("  Model      : {0}".format(args.model))
       print("  Start year : {0}".format(args.start))
       print("  End year   : {0}".format(args.end))
+      print("")
+      print("  Backend    : {0}".format(args.backend))
       print("  Compression: {0}".format(args.deflate))
       print("  Verbosity  : {0}".format(args.verbosity))
       print("<<<<<<<<<<<<<<<<<<<<<<")
@@ -95,8 +116,8 @@ def main(args):
     years       = range(args.start, args.end + 1)
     
     # A mapping between model names and file corresponding file names
-    mtypes = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
-    freqtypes = {"atm":"h0", "lnd":"h0", "ocn":"h", "ice":"h"}
+    mtypes    = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
+    freqtypes = {"atm":"h0",   "lnd":"h0",   "ocn":"h",   "ice":"h"}
 
 
     #comp_direc = osp.join("/scratch/p/peltier/dchandan/ctest", model, "hist")
@@ -139,7 +160,8 @@ def main(args):
                              skip_existing=args.skip_existing,
                              overwrite=args.overwrite,
                              once=args.once,
-                             simplecomm=simplecomm)
+                             simplecomm=simplecomm,
+                             backend=args.backend)
 
     # Run the conversion (slice-to-series) process
     reshpr.convert(output_limit=args.limit)
