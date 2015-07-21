@@ -16,6 +16,7 @@ import itertools
 
 # Third-party imports
 import Nio
+import netCDF4
 import numpy
 from asaptools.simplecomm import create_comm, SimpleComm, SimpleCommMPI
 from asaptools.timekeeper import TimeKeeper
@@ -31,7 +32,7 @@ from specification import Specifier
 #==============================================================================
 def create_reshaper(specifier, serial=False, verbosity=1,
                     skip_existing=False, overwrite=False,
-                    once=False, simplecomm=None):
+                    once=False, simplecomm=None, backend="netcdf"):
     """
     Factory function for Reshaper class instantiations.
 
@@ -74,7 +75,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                     skip_existing=skip_existing,
                                     overwrite=overwrite,
                                     once=once,
-                                    simplecomm=simplecomm)
+                                    simplecomm=simplecomm,
+                                    backend=backend)
     elif isinstance(specifier, list):
         spec_dict = dict([(str(i), s) for (i, s) in enumerate(specifier)])
         return create_reshaper(spec_dict,
@@ -83,7 +85,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                skip_existing=skip_existing,
                                overwrite=overwrite,
                                once=once,
-                               simplecomm=simplecomm)
+                               simplecomm=simplecomm,
+                               backend=backend)
     elif isinstance(specifier, dict):
         spec_types = set([type(s) for s in specifier.values()])
         if len(spec_types) > 1:
@@ -207,7 +210,7 @@ class Slice2SeriesReshaper(Reshaper):
 
     def __init__(self, specifier, serial=False, verbosity=1,
                  skip_existing=False, overwrite=False,
-                 once=False, simplecomm=None):
+                 once=False, simplecomm=None, backend="netcdf"):
         """
         Constructor
 
@@ -293,27 +296,28 @@ class Slice2SeriesReshaper(Reshaper):
         if self._simplecomm.is_manager():
             self._vprint('Specifier validated', verbosity=1)
 
-        # Setup PyNIO options (including disabling the default PreFill option)
-        opt = Nio.options()
-        opt.PreFill = False
+        if (backend == "nio"):
+            # Setup PyNIO options (including disabling the default PreFill option)
+            opt = Nio.options()
+            opt.PreFill = False
 
-        # Determine the Format and CompressionLevel options
-        # from the NetCDF format string in the Specifier
-        if specifier.netcdf_format == 'netcdf':
-            opt.Format = 'Classic'
-        elif specifier.netcdf_format == 'netcdf4':
-            opt.Format = 'NetCDF4Classic'
-            opt.CompressionLevel = 0
-        elif specifier.netcdf_format == 'netcdf4c':
-            opt.Format = 'NetCDF4Classic'
-            opt.CompressionLevel = specifier.netcdf_deflate
+            # Determine the Format and CompressionLevel options
+            # from the NetCDF format string in the Specifier
+            if specifier.netcdf_format == 'netcdf':
+                opt.Format = 'Classic'
+            elif specifier.netcdf_format == 'netcdf4':
+                opt.Format = 'NetCDF4Classic'
+                opt.CompressionLevel = 0
+            elif specifier.netcdf_format == 'netcdf4c':
+                opt.Format = 'NetCDF4Classic'
+                opt.CompressionLevel = specifier.netcdf_deflate
+                if self._simplecomm.is_manager():
+                    self._vprint('PyNIO compression level: {0}'.format(\
+                        specifier.netcdf_deflate), verbosity=2)
+
+            self._nio_options = opt
             if self._simplecomm.is_manager():
-                self._vprint('PyNIO compression level: {0}'.format(\
-                    specifier.netcdf_deflate), verbosity=2)
-
-        self._nio_options = opt
-        if self._simplecomm.is_manager():
-            self._vprint('PyNIO options set', verbosity=2)
+                self._vprint('PyNIO options set', verbosity=2)
 
         # Open all of the input files
         self._timer.start('Open Input Files')
@@ -702,8 +706,13 @@ class Slice2SeriesReshaper(Reshaper):
             if os.path.exists(out_filename):
                 err_msg = 'Found existing output file: {0}'.format(out_filename)
                 raise OSError(err_msg)
-            out_file = Nio.open_file(out_filename, 'w',
-                                     options=self._nio_options)
+
+            if (backend == "nio"):
+                out_file = Nio.open_file(out_filename, 'w',
+                                         options=self._nio_options)
+            else:
+                out_file = netCDF4.Dataset(out_filename, 'w')
+            
             for att_name, att_val in common_atts.iteritems():
                 setattr(out_file, att_name, att_val)
             for dim_name, dim_val in common_dims.iteritems():
