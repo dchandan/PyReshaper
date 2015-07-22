@@ -753,8 +753,7 @@ class Slice2SeriesReshaper(Reshaper):
             # Determine the output file name for this variable
             out_filename = self._time_series_filenames[out_name]
             dbg_msg = 'Creating output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Creating "once" file.'
+            if is_once_file: dbg_msg = 'Creating "once" file.'
             self._vprint(dbg_msg, header=True, verbosity=1)
 
             # Open each output file and create the dimensions and attributes
@@ -801,9 +800,9 @@ class Slice2SeriesReshaper(Reshaper):
                             setattr(out_var, att_name, att_val)
                     else:
                         out_var = out_file.createVariable(name,
-                                                           in_var.dtype,
-                                                           in_var.dimensions,
-                                                           **self._netcdf_var_options)
+                                                          in_var.dtype,
+                                                          in_var.dimensions,
+                                                          **self._netcdf_var_options)
                         out_var.setncatts(in_var.__dict__)
 
                 self._timer.stop('Create Time-Invariant Metadata')
@@ -847,12 +846,15 @@ class Slice2SeriesReshaper(Reshaper):
 
         # Now that each output file has been created, start writing the data
         # (Looping over output file index, which is common in name lists)
+        
+
+        # First, we loop over all output files to create assign the variable
+        # attributes and to write time-invariant metadata.
         for out_name, out_file in out_files.iteritems():
             is_once_file, write_meta, write_tser = _get_once_info(out_name)
 
             dbg_msg = 'Writing output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Writing "once" file.'
+            if is_once_file: dbg_msg = 'Writing "once" file.'
             self._vprint(dbg_msg, header=True, verbosity=1)
 
             # Create the attributes of the time-series variable
@@ -881,23 +883,26 @@ class Slice2SeriesReshaper(Reshaper):
 
                 self._timer.stop('Write Time-Invariant Metadata')
 
-            # Write each time-variant variable
-            series_step_index = 0
-            # num_inp_files_processed = 0
-            for in_file in self._input_files:
 
-                # Get the number of time steps in this slice file
-                if (self.backend == "nio"):
-                    num_steps = in_file.dimensions[self._unlimited_dim]
-                else:
-                    num_steps = len(in_file.dimensions[self._unlimited_dim])
+        series_step_index = 0
+        
+        num_input_files = len(self._input_files)
+        for in_file in self._input_files: # Loop over input files
+            # Get the number of time steps in this slice file
+            if (self.backend == "nio"):
+                num_steps = in_file.dimensions[self._unlimited_dim]
+            else:
+                num_steps = len(in_file.dimensions[self._unlimited_dim])
 
+            # Loop over output variables
+            for out_name, out_file in out_files.iteritems():
+                is_once_file, write_meta, write_tser = _get_once_info(out_name)
+                
                 # Loop over the time steps in this slice file
                 for slice_step_index in range(num_steps):
 
                     # Write the time-varient metadata
                     if write_meta:
-                        self._timer.start('Write Time-Variant Metadata')
                         for name in self._time_variant_metadata:
                             in_meta  = in_file.variables[name]
                             out_meta = out_file.variables[name]
@@ -921,12 +926,11 @@ class Slice2SeriesReshaper(Reshaper):
                             actual_nbytes = self.assumed_block_size \
                                 * numpy.ceil(requested_nbytes / self.assumed_block_size)
                             self._byte_counts['Actual Data'] += actual_nbytes
-                        self._timer.stop('Write Time-Variant Metadata')
 
                     # Write the time-series variables
                     if write_tser:
-                        self._timer.start('Write Time-Series Variables')
                         in_var = in_file.variables[out_name]
+                        out_var = out_file.variables[out_name]
                         if (self.backend == "nio"):
                             ndims = len(in_var.dimensions)
                         else:
@@ -936,6 +940,7 @@ class Slice2SeriesReshaper(Reshaper):
                         in_slice[udidx] = slice_step_index
                         out_slice = [slice(None)] * ndims
                         out_slice[udidx] = series_step_index
+                        # print out_name, in_var[tuple(in_slice)].shape
                         out_var[tuple(out_slice)] = in_var[tuple(in_slice)]
 
                         requested_nbytes = in_file.variables[
@@ -944,19 +949,21 @@ class Slice2SeriesReshaper(Reshaper):
                         actual_nbytes = self.assumed_block_size \
                             * numpy.ceil(requested_nbytes / self.assumed_block_size)
                         self._byte_counts['Actual Data'] += actual_nbytes
-                        self._timer.stop('Write Time-Series Variables')
 
-                    # Increment the time-series step index
-                    series_step_index += 1
+            # Increment the time-series step index
+            series_step_index += 1
 
-            # Close the output file
-            self._timer.start('Close Output Files')
-            out_file.close()
-            self._timer.stop('Close Output Files')
-            dbg_msg = 'Closed output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Closed "once" file.'
-            self._vprint(dbg_msg, header=True, verbosity=1)
+            # Now we close the input file as it is no longer needed.
+            in_file.close()
+            in_file = None  # Clear the contents of the variable to save memory
+
+            # Print a progress message
+            if self._simplecomm.is_manager():
+                progress_message = "Completed {0:04d} of {1:04d} input files".format(
+                                       series_step_index, num_input_files)
+                self._vprint(progress_message, header=False, verbosity=1)
+
+
 
         # Information
         self._simplecomm.sync()
@@ -971,11 +978,12 @@ class Slice2SeriesReshaper(Reshaper):
         """
         Print out timing and I/O information collected up to this point
         """
+        pass
 
         # Get all totals and maxima
-        my_times = self._timer.get_all_times()
-        max_times = self._simplecomm.allreduce(my_times, op='max')
-        my_bytes = self._byte_counts
+        my_times    = self._timer.get_all_times()
+        max_times   = self._simplecomm.allreduce(my_times, op='max')
+        my_bytes    = self._byte_counts
         total_bytes = self._simplecomm.allreduce(my_bytes, op='sum')
 
         # Synchronize
