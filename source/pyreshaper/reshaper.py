@@ -953,6 +953,10 @@ class Slice2SeriesReshaper(Reshaper):
             # Increment the time-series step index
             series_step_index += 1
 
+            if (self.backend == "netcdf"):
+                if (series_step_index%4 == 0):
+                    out_file.sync()
+
             # Now we close the input file as it is no longer needed.
             in_file.close()
             in_file = None  # Clear the contents of the variable to save memory
