@@ -16,6 +16,7 @@ import itertools
 
 # Third-party imports
 import Nio
+import netCDF4
 import numpy
 from asaptools.simplecomm import create_comm, SimpleComm, SimpleCommMPI
 from asaptools.timekeeper import TimeKeeper
@@ -31,7 +32,7 @@ from specification import Specifier
 #==============================================================================
 def create_reshaper(specifier, serial=False, verbosity=1,
                     skip_existing=False, overwrite=False,
-                    once=False, simplecomm=None):
+                    once=False, simplecomm=None, backend="netcdf"):
     """
     Factory function for Reshaper class instantiations.
 
@@ -74,7 +75,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                     skip_existing=skip_existing,
                                     overwrite=overwrite,
                                     once=once,
-                                    simplecomm=simplecomm)
+                                    simplecomm=simplecomm,
+                                    backend=backend)
     elif isinstance(specifier, list):
         spec_dict = dict([(str(i), s) for (i, s) in enumerate(specifier)])
         return create_reshaper(spec_dict,
@@ -83,7 +85,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                skip_existing=skip_existing,
                                overwrite=overwrite,
                                once=once,
-                               simplecomm=simplecomm)
+                               simplecomm=simplecomm,
+                               backend=backend)
     elif isinstance(specifier, dict):
         spec_types = set([type(s) for s in specifier.values()])
         if len(spec_types) > 1:
@@ -207,7 +210,7 @@ class Slice2SeriesReshaper(Reshaper):
 
     def __init__(self, specifier, serial=False, verbosity=1,
                  skip_existing=False, overwrite=False,
-                 once=False, simplecomm=None):
+                 once=False, simplecomm=None, backend="netcdf"):
         """
         Constructor
 
@@ -293,33 +296,61 @@ class Slice2SeriesReshaper(Reshaper):
         if self._simplecomm.is_manager():
             self._vprint('Specifier validated', verbosity=1)
 
-        # Setup PyNIO options (including disabling the default PreFill option)
-        opt = Nio.options()
-        opt.PreFill = False
+        self.backend = backend
+        self._validate_backend()
 
-        # Determine the Format and CompressionLevel options
-        # from the NetCDF format string in the Specifier
-        if specifier.netcdf_format == 'netcdf':
-            opt.Format = 'Classic'
-        elif specifier.netcdf_format == 'netcdf4':
-            opt.Format = 'NetCDF4Classic'
-            opt.CompressionLevel = 0
-        elif specifier.netcdf_format == 'netcdf4c':
-            opt.Format = 'NetCDF4Classic'
-            opt.CompressionLevel = specifier.netcdf_deflate
+        if (self.backend == "nio"):
+            # Setup PyNIO options (including disabling the default PreFill option)
+            opt = Nio.options()
+            opt.PreFill = False
+
+            # Determine the Format and CompressionLevel options
+            # from the NetCDF format string in the Specifier
+            if specifier.netcdf_format == 'netcdf':
+                opt.Format = 'Classic'
+            elif specifier.netcdf_format == 'netcdf4':
+                opt.Format = 'NetCDF4Classic'
+                opt.CompressionLevel = 0
+            elif specifier.netcdf_format == 'netcdf4c':
+                opt.Format = 'NetCDF4Classic'
+                opt.CompressionLevel = specifier.netcdf_deflate
+                if self._simplecomm.is_manager():
+                    self._vprint('PyNIO compression level: {0}'.format(\
+                        specifier.netcdf_deflate), verbosity=2)
+
+            self._nio_options = opt
             if self._simplecomm.is_manager():
-                self._vprint('PyNIO compression level: {0}'.format(\
-                    specifier.netcdf_deflate), verbosity=2)
+                self._vprint('PyNIO options set', verbosity=2)
+        else:
+            self._netcdf_dataset_options = {}
+            self._netcdf_dim_options = {}
+            self._netcdf_var_options = {}
+            if specifier.netcdf_format == 'netcdf':
+                self._netcdf_dataset_options["format"]  = "NETCDF3_64BIT"
+            elif specifier.netcdf_format == 'netcdf4':
+                self._netcdf_dataset_options["format"]  = "NETCDF4_CLASSIC"
+            elif specifier.netcdf_format == 'netcdf4c':
+                self._netcdf_dataset_options["format"]  = "NETCDF4"
+                self._netcdf_var_options["zlib"] = True
+                self._netcdf_var_options["complevel"] = specifier.netcdf_deflate
+                if self._simplecomm.is_manager():
+                    self._vprint('netCDF4 compression level: {0}'.format(\
+                        specifier.netcdf_deflate), verbosity=2)
 
-        self._nio_options = opt
-        if self._simplecomm.is_manager():
-            self._vprint('PyNIO options set', verbosity=2)
+            if self._simplecomm.is_manager():
+                self._vprint('netCDF4 options set', verbosity=2)
+
 
         # Open all of the input files
         self._timer.start('Open Input Files')
         self._input_files = []
-        for filename in specifier.input_file_list:
-            self._input_files.append(Nio.open_file(filename, "r"))
+        if (self.backend == "nio"):
+            for filename in specifier.input_file_list:
+                self._input_files.append(Nio.open_file(filename, "r"))
+        else:
+            for filename in specifier.input_file_list:
+                self._input_files.append(netCDF4.Dataset(filename, "r"))
+
         self._timer.stop('Open Input Files')
         if self._simplecomm.is_manager():
             self._vprint('Input files opened', verbosity=2)
@@ -361,6 +392,13 @@ class Slice2SeriesReshaper(Reshaper):
         # Sync before continuing..
         self._simplecomm.sync()
 
+
+    def _validate_backend(self):
+        if (self.backend not in ["nio", "netcdf"]):
+            msg = "Netcdf backend library must be either 'nio' or 'netcdf'"
+            raise ValueError(msg)
+
+
     def _validate_input_files(self, specifier):
         """
         Perform validation of input data files themselves.  
@@ -380,7 +418,11 @@ class Slice2SeriesReshaper(Reshaper):
         ifile = self._input_files[0]
         self._unlimited_dim = None
         for dim in ifile.dimensions:
-            if ifile.unlimited(dim):
+            if (self.backend == "nio"): 
+                _isunlim = ifile.unlimited(dim)
+            else:
+                _isunlim = ifile.dimensions[dim].isunlimited()
+            if _isunlim:
                 self._unlimited_dim = dim
                 break  # There can only be 1!
         if self._unlimited_dim == None:
@@ -397,10 +439,14 @@ class Slice2SeriesReshaper(Reshaper):
                 err_msg = 'Unlimited dimension not found in file ({0})'.\
                           format(specifier.input_file_list[i])
                 raise LookupError(err_msg)
-            if not ifile.unlimited(self._unlimited_dim):
-                err_msg = 'Unlimited dimension not unlimited in file ({0})'.\
-                          format(specifier.input_file_list[i])
-                raise LookupError(err_msg)
+
+            if (self.backend == "nio"):
+                if not ifile.unlimited(self._unlimited_dim):
+                    err_msg = 'Unlimited dimension not unlimited in file ({0})'.\
+                              format(specifier.input_file_list[i])
+                    raise LookupError(err_msg)
+            else:
+                pass
             if self._unlimited_dim not in ifile.variables:
                 err_msg = 'Unlimited dimension variable not found in file ({0})'.\
                           format(specifier.input_file_list[i])
@@ -451,12 +497,21 @@ class Slice2SeriesReshaper(Reshaper):
         # that the outer-most list contains an array for each input file)
         time_values = []
         for ifile in self._input_files:
-            time_values.append(
-                ifile.variables[self._unlimited_dim].get_value())
+            if (self.backend == "nio"):
+                time_values.append(
+                    ifile.variables[self._unlimited_dim].get_value())
+            else:
+                time_values.append(
+                    ifile.variables[self._unlimited_dim][:])
+
 
         # Determine the sort order based on the first time in the time values
         order = range(len(self._input_files))
         new_order = sorted(order, key=lambda i: time_values[i][0])
+        # if (self.backend == "nio"):
+        #     new_order = sorted(order, key=lambda i: time_values[i][0])
+        # else:
+        #     new_order = sorted(order, key=lambda i: time_values[i])
 
         # Re-order the list of input files and filenames
         new_file_list = [None] * len(new_order)
@@ -517,7 +572,10 @@ class Slice2SeriesReshaper(Reshaper):
         variables = self._input_files[0].variables
         for var_name in variables.keys():
             var = variables[var_name]
-            size = numpy.dtype(var.typecode()).itemsize
+            if (self.backend == "nio"):
+                size = numpy.dtype(var.typecode()).itemsize
+            else:
+                size = var.dtype.itemsize
             size = size * numpy.prod(var.shape)
             if self._unlimited_dim not in var.dimensions:
                 self._time_invariant_metadata[var_name] = size
@@ -635,7 +693,10 @@ class Slice2SeriesReshaper(Reshaper):
         # Store the common dimensions and attributes for each file
         # (taken from the first input file in the list)
         common_dims = ref_infile.dimensions
-        common_atts = ref_infile.attributes
+        if (self.backend == "nio"):
+            common_atts = ref_infile.attributes
+        else:
+            common_atts = ref_infile.__dict__
 
         # Partition the time-series variables across all processors
         tsv_names_loc = self._simplecomm.partition(self._time_series_variables.items(),
@@ -692,8 +753,7 @@ class Slice2SeriesReshaper(Reshaper):
             # Determine the output file name for this variable
             out_filename = self._time_series_filenames[out_name]
             dbg_msg = 'Creating output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Creating "once" file.'
+            if is_once_file: dbg_msg = 'Creating "once" file.'
             self._vprint(dbg_msg, header=True, verbosity=1)
 
             # Open each output file and create the dimensions and attributes
@@ -702,15 +762,29 @@ class Slice2SeriesReshaper(Reshaper):
             if os.path.exists(out_filename):
                 err_msg = 'Found existing output file: {0}'.format(out_filename)
                 raise OSError(err_msg)
-            out_file = Nio.open_file(out_filename, 'w',
-                                     options=self._nio_options)
-            for att_name, att_val in common_atts.iteritems():
-                setattr(out_file, att_name, att_val)
-            for dim_name, dim_val in common_dims.iteritems():
-                if dim_name == self._unlimited_dim:
-                    out_file.create_dimension(dim_name, None)
-                else:
-                    out_file.create_dimension(dim_name, dim_val)
+
+            if (self.backend == "nio"):
+                out_file = Nio.open_file(out_filename, 'w',
+                                         options=self._nio_options)
+                for att_name, att_val in common_atts.iteritems():
+                    setattr(out_file, att_name, att_val)
+                for dim_name, dim_val in common_dims.iteritems():
+                    if dim_name == self._unlimited_dim:
+                        out_file.create_dimension(dim_name, None)
+                    else:
+                        out_file.create_dimension(dim_name, dim_val)
+            else:
+                out_file = netCDF4.Dataset(out_filename, 'w', **self._netcdf_dataset_options)
+                # Setting the common attributes
+                out_file.setncatts(common_atts)
+                # Creating dimensions
+                for dim_name, dim_val in common_dims.iteritems():
+                    if dim_name == self._unlimited_dim:
+                        out_file.createDimension(dim_name, None)
+                    else:
+                        out_file.createDimension(dim_name, len(dim_val))
+
+            
             self._timer.stop('Open Output Files')
 
             # Create the time-invariant metadata variables
@@ -718,11 +792,19 @@ class Slice2SeriesReshaper(Reshaper):
                 self._timer.start('Create Time-Invariant Metadata')
                 for name in self._time_invariant_metadata:
                     in_var = ref_infile.variables[name]
-                    out_var = out_file.create_variable(name,
-                                                       in_var.typecode(),
-                                                       in_var.dimensions)
-                    for att_name, att_val in in_var.attributes.iteritems():
-                        setattr(out_var, att_name, att_val)
+                    if (self.backend == "nio"):
+                        out_var = out_file.create_variable(name,
+                                                           in_var.typecode(),
+                                                           in_var.dimensions)
+                        for att_name, att_val in in_var.attributes.iteritems():
+                            setattr(out_var, att_name, att_val)
+                    else:
+                        out_var = out_file.createVariable(name,
+                                                          in_var.dtype,
+                                                          in_var.dimensions,
+                                                          **self._netcdf_var_options)
+                        out_var.setncatts(in_var.__dict__)
+
                 self._timer.stop('Create Time-Invariant Metadata')
 
             # Create the time-variant metadata variables
@@ -730,18 +812,33 @@ class Slice2SeriesReshaper(Reshaper):
                 self._timer.start('Create Time-Variant Metadata')
                 for name in self._time_variant_metadata:
                     in_var = ref_infile.variables[name]
-                    out_tvm_vars[name] = out_file.create_variable(name,
-                                                                  in_var.typecode(), in_var.dimensions)
-                    for att_name, att_val in in_var.attributes.iteritems():
-                        setattr(out_tvm_vars[name], att_name, att_val)
+                    if (self.backend == "nio"):
+                        out_tvm_vars[name] = out_file.create_variable(name,
+                                                                      in_var.typecode(), 
+                                                                      in_var.dimensions)
+                        for att_name, att_val in in_var.attributes.iteritems():
+                            setattr(out_tvm_vars[name], att_name, att_val)
+                    else:
+                        out_tvm_vars[name] = out_file.createVariable(name,
+                                                                     in_var.dtype, 
+                                                                     in_var.dimensions,
+                                                                     **self._netcdf_var_options)
+                        out_tvm_vars[name].setncatts(in_var.__dict__)
                 self._timer.stop('Create Time-Variant Metadata')
 
             # Create the time-series variable itself
             if write_tser:
                 self._timer.start('Create Time-Series Variables')
                 in_var = ref_infile.variables[out_name]
-                out_var = out_file.create_variable(out_name,
-                                                   in_var.typecode(), in_var.dimensions)
+                if (self.backend == "nio"):
+                    out_var = out_file.create_variable(out_name,
+                                                       in_var.typecode(), 
+                                                       in_var.dimensions)
+                else:
+                    out_var = out_file.createVariable(out_name,
+                                                      in_var.dtype,
+                                                      in_var.dimensions,
+                                                      **self._netcdf_var_options)
                 self._timer.stop('Create Time-Series Variables')
 
             # Append the output file to list
@@ -749,20 +846,26 @@ class Slice2SeriesReshaper(Reshaper):
 
         # Now that each output file has been created, start writing the data
         # (Looping over output file index, which is common in name lists)
+        
+
+        # First, we loop over all output files to create assign the variable
+        # attributes and to write time-invariant metadata.
         for out_name, out_file in out_files.iteritems():
             is_once_file, write_meta, write_tser = _get_once_info(out_name)
 
             dbg_msg = 'Writing output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Writing "once" file.'
+            if is_once_file: dbg_msg = 'Writing "once" file.'
             self._vprint(dbg_msg, header=True, verbosity=1)
 
             # Create the attributes of the time-series variable
             if write_tser:
                 in_var = ref_infile.variables[out_name]
                 out_var = out_file.variables[out_name]
-                for att_name, att_val in in_var.attributes.iteritems():
-                    setattr(out_var, att_name, att_val)
+                if (self.backend == "nio"):
+                    for att_name, att_val in in_var.attributes.iteritems():
+                        setattr(out_var, att_name, att_val)
+                else:
+                    out_var.setncatts(in_var.__dict__)
 
             # Write the time-invariant metadata
             if write_meta:
@@ -770,31 +873,46 @@ class Slice2SeriesReshaper(Reshaper):
                 for name in self._time_invariant_metadata:
                     in_meta = ref_infile.variables[name]
                     out_meta = out_file.variables[name]
-                    if in_meta.rank > 0:
-                        out_meta[:] = in_meta[:]
+                    if (self.backend == "nio"):
+                        if in_meta.rank > 0:
+                            out_meta[:] = in_meta[:]
+                        else:
+                            out_meta.assign_value(in_meta.get_value())
                     else:
-                        out_meta.assign_value(in_meta.get_value())
+                        out_meta[:] = in_meta[:]
+
                 self._timer.stop('Write Time-Invariant Metadata')
 
-            # Write each time-variant variable
-            series_step_index = 0
-            for in_file in self._input_files:
 
-                # Get the number of time steps in this slice file
+        series_step_index = 0
+        
+        num_input_files = len(self._input_files)
+        for in_file in self._input_files: # Loop over input files
+            # Get the number of time steps in this slice file
+            if (self.backend == "nio"):
                 num_steps = in_file.dimensions[self._unlimited_dim]
+            else:
+                num_steps = len(in_file.dimensions[self._unlimited_dim])
 
+            # Loop over output variables
+            for out_name, out_file in out_files.iteritems():
+                is_once_file, write_meta, write_tser = _get_once_info(out_name)
+                
                 # Loop over the time steps in this slice file
                 for slice_step_index in range(num_steps):
 
                     # Write the time-varient metadata
                     if write_meta:
-                        self._timer.start('Write Time-Variant Metadata')
                         for name in self._time_variant_metadata:
-                            in_meta = in_file.variables[name]
+                            in_meta  = in_file.variables[name]
                             out_meta = out_file.variables[name]
-                            ndims = len(in_meta.dimensions)
-                            udidx = in_meta.dimensions.index(
-                                self._unlimited_dim)
+                            
+                            if (self.backend == "nio"):
+                                ndims = len(in_meta.dimensions)
+                            else:
+                                ndims = in_meta.ndim
+                            
+                            udidx = in_meta.dimensions.index(self._unlimited_dim)
                             in_slice = [slice(None)] * ndims
                             in_slice[udidx] = slice_step_index
                             out_slice = [slice(None)] * ndims
@@ -808,18 +926,21 @@ class Slice2SeriesReshaper(Reshaper):
                             actual_nbytes = self.assumed_block_size \
                                 * numpy.ceil(requested_nbytes / self.assumed_block_size)
                             self._byte_counts['Actual Data'] += actual_nbytes
-                        self._timer.stop('Write Time-Variant Metadata')
 
                     # Write the time-series variables
                     if write_tser:
-                        self._timer.start('Write Time-Series Variables')
                         in_var = in_file.variables[out_name]
-                        ndims = len(in_var.dimensions)
+                        out_var = out_file.variables[out_name]
+                        if (self.backend == "nio"):
+                            ndims = len(in_var.dimensions)
+                        else:
+                            ndims = in_var.ndim
                         udidx = in_var.dimensions.index(self._unlimited_dim)
                         in_slice = [slice(None)] * ndims
                         in_slice[udidx] = slice_step_index
                         out_slice = [slice(None)] * ndims
                         out_slice[udidx] = series_step_index
+                        # print out_name, in_var[tuple(in_slice)].shape
                         out_var[tuple(out_slice)] = in_var[tuple(in_slice)]
 
                         requested_nbytes = in_file.variables[
@@ -828,19 +949,21 @@ class Slice2SeriesReshaper(Reshaper):
                         actual_nbytes = self.assumed_block_size \
                             * numpy.ceil(requested_nbytes / self.assumed_block_size)
                         self._byte_counts['Actual Data'] += actual_nbytes
-                        self._timer.stop('Write Time-Series Variables')
 
-                    # Increment the time-series step index
-                    series_step_index += 1
+            # Increment the time-series step index
+            series_step_index += 1
 
-            # Close the output file
-            self._timer.start('Close Output Files')
-            out_file.close()
-            self._timer.stop('Close Output Files')
-            dbg_msg = 'Closed output file for variable: {0}'.format(out_name)
-            if is_once_file:
-                dbg_msg = 'Closed "once" file.'
-            self._vprint(dbg_msg, header=True, verbosity=1)
+            # Now we close the input file as it is no longer needed.
+            in_file.close()
+            in_file = None  # Clear the contents of the variable to save memory
+
+            # Print a progress message
+            if self._simplecomm.is_manager():
+                progress_message = "Completed {0:04d} of {1:04d} input files".format(
+                                       series_step_index, num_input_files)
+                self._vprint(progress_message, header=False, verbosity=1)
+
+
 
         # Information
         self._simplecomm.sync()
@@ -855,11 +978,12 @@ class Slice2SeriesReshaper(Reshaper):
         """
         Print out timing and I/O information collected up to this point
         """
+        pass
 
         # Get all totals and maxima
-        my_times = self._timer.get_all_times()
-        max_times = self._simplecomm.allreduce(my_times, op='max')
-        my_bytes = self._byte_counts
+        my_times    = self._timer.get_all_times()
+        max_times   = self._simplecomm.allreduce(my_times, op='max')
+        my_bytes    = self._byte_counts
         total_bytes = self._simplecomm.allreduce(my_bytes, op='sum')
 
         # Synchronize
