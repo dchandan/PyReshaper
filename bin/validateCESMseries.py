@@ -150,10 +150,7 @@ def worker(work_queue, return_queue, unlim_dim, slice_files, backend):
         ncfile.close()
         del ncfile
         num_vars_processed += 1
-        if (num_vars_processed % 3) == 0:
-            logger.info("Garbage collecting")
-            gc.collect()
-        
+
         result["pass"] = all_okay
         result["num_errors"] = num_errors
         result["error_vars"] = list(error_vars)

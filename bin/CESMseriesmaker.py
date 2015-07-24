@@ -76,6 +76,14 @@ def cli():
                       action='store_true', dest='overwrite',
                       help='Whether to overwrite existing output files. '
                            '[Default: False]')
+    parser.add_argument('--timecode', default=False,
+                      action='store_true', dest='timecode',
+                      help='Whether to time the code internally. '
+                           '[Default: False]')
+    parser.add_argument('--preprocess', default=False,
+                      action='store_true', dest='preprocess',
+                      help='Whether to preprocess the input files for validation purposes. '
+                           '[Default: False]')
     parser.add_argument('-v', '--verbosity', default=1, type=int, action='store',
                       help='Verbosity level for level of output.  A value of 0 '
                            'means no output, and a value greater than 0 means '
@@ -85,6 +93,8 @@ def cli():
                            'processor to write.  Useful when debugging.  A '
                            'limit of 0 means write all output files.'
                            '[Default: 0]')
+
+
 
     # Parse the CLI options and assemble the Reshaper inputs
     # print parser.parse_args()
@@ -97,49 +107,63 @@ def cli():
 def main(args):
     simplecomm = create_comm(serial=args.serial)
 
+    # Only the manager process needs to write the configuration to the screen
+    # and generate the list of input files.
     if simplecomm.is_manager():
       print("Configuration  >>>>>>>")
-      print("  Case name  : {0}".format(args.case))
-      print("  Model      : {0}".format(args.model))
-      print("  Start year : {0}".format(args.start))
-      print("  End year   : {0}".format(args.end))
+      print("  Case name      : {0}".format(args.case))
+      print("  Model          : {0}".format(args.model))
+      print("  Start year     : {0}".format(args.start))
+      print("  End year       : {0}".format(args.end))
       print("")
-      print("  Backend    : {0}".format(args.backend))
-      print("  Compression: {0}".format(args.deflate))
-      print("  Verbosity  : {0}".format(args.verbosity))
+      print("  Serial         : {0}".format(args.serial))
+      print("  Once           : {0}".format(args.once))
+      print("  Skip Existing  : {0}".format(args.skip_existing))
+      print("  Overwrite      : {0}".format(args.overwrite))
+      print("  Time Code      : {0}".format(args.timecode))
+      print("  Preprocess     : {0}".format(args.preprocess))
+      print("  Backend        : {0}".format(args.backend))
+      print("  Compression    : {0}".format(args.deflate))
+      print("  Verbosity      : {0}".format(args.verbosity))
       print("<<<<<<<<<<<<<<<<<<<<<<")
 
-    # The CESM case object
-    case        = CESMCase(args.case)
+      # The CESM case object
+      case        = CESMCase(args.case)
 
-    total_years = args.end - args.start + 1
-    years       = range(args.start, args.end + 1)
-    
-    # A mapping between model names and file corresponding file names
-    mtypes    = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
-    freqtypes = {"atm":"h0",   "lnd":"h0",   "ocn":"h",   "ice":"h"}
+      total_years = args.end - args.start + 1
+      years       = range(args.start, args.end + 1)
+      
+      # A mapping between model names and file corresponding file names
+      mtypes    = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
+      freqtypes = {"atm":"h0",   "lnd":"h0",   "ocn":"h",   "ice":"h"}
 
 
-    #comp_direc = osp.join("/scratch/p/peltier/dchandan/ctest", model, "hist")
-    comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
-    # os.chdir(comp_direc)
+      #comp_direc = osp.join("/scratch/p/peltier/dchandan/ctest", model, "hist")
+      comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
+      # os.chdir(comp_direc)
 
-    # Generating the list of files that need to be worked on
-    list_of_files = []
-    for year in years:
-        pattern = "{0}/{1}.{2}.{3}.{4:04d}*.nc".format(comp_direc,
-                                                      args.case, 
-                                                      mtypes[args.model], 
-                                                      freqtypes[args.model], 
-                                                      year)
-        list_of_files.extend(glob.glob(pattern))
+      # Generating the list of files that need to be worked on
+      list_of_files = []
+      for year in years:
+          pattern = "{0}/{1}.{2}.{3}.{4:04d}*.nc".format(comp_direc,
+                                                        args.case, 
+                                                        mtypes[args.model], 
+                                                        freqtypes[args.model], 
+                                                        year)
+          list_of_files.extend(glob.glob(pattern))
 
-    list_of_files.sort()
+      list_of_files.sort()
 
-    if simplecomm.is_manager():
       print("+--------------------------------------+")
       print("| Number of files to operate upon: {0:3d} |".format(len(list_of_files)))
       print("+--------------------------------------+")
+
+    else:
+      list_of_files = None
+
+    # We broadcast the list of files to all processes
+    list_of_files = simplecomm._comm.bcast(list_of_files, root=0)
+
 
     output_prefix = "tseries_{0}_{1}.".format(args.start, args.end)
 
@@ -161,7 +185,10 @@ def main(args):
                              overwrite=args.overwrite,
                              once=args.once,
                              simplecomm=simplecomm,
-                             backend=args.backend)
+                             backend=args.backend,
+                             timecode=args.timecode,
+                             sort_files=False,
+                             preprocess=args.preprocess)
 
     # Run the conversion (slice-to-series) process
     reshpr.convert(output_limit=args.limit)
