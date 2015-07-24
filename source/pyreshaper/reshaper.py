@@ -340,34 +340,27 @@ class Slice2SeriesReshaper(Reshaper):
             if self._simplecomm.is_manager():
                 self._vprint('netCDF4 options set', verbosity=2)
 
-
-        # Open all of the input files
-        self._timer.start('Open Input Files')
-        self._input_files = []
+       
+        # This is an abstracted attribute to open input files transparently
+        # regardless of the backend
         if (self.backend == "nio"):
-            for filename in specifier.input_file_list:
-                self._input_files.append(Nio.open_file(filename, "r"))
+            self.Open_Input_File = Nio.open_file
         else:
-            for filename in specifier.input_file_list:
-                self._input_files.append(netCDF4.Dataset(filename, "r"))
+            self.Open_Input_File = netCDF4.Dataset
 
-        self._timer.stop('Open Input Files')
-        if self._simplecomm.is_manager():
-            self._vprint('Input files opened', verbosity=2)
 
-        # Validate the input files themselves
+        # Copying the list of input file names into this class
+        self.input_file_list = specifier.input_file_list
+        self.num_input_files = len(self.input_file_list)
+
+
+        # Analyze the input files for validation and getting information
         self._timer.start('Input File Validation')
-        self._validate_input_files(specifier)
+        self._analyze_input_files()
         self._timer.stop('Input File Validation')
         if self._simplecomm.is_manager():
             self._vprint('Input files validated', verbosity=2)
 
-        # Sort the input files by time
-        self._timer.start('Sort Input Files')
-        self._sort_input_files_by_time(specifier)
-        self._timer.stop('Sort Input Files')
-        if self._simplecomm.is_manager():
-            self._vprint('Input files sorted', verbosity=2)
 
         # Retrieve and sort the variables in each time-slice file
         # (To determine if it is time-invariant metadata, time-variant
@@ -393,29 +386,27 @@ class Slice2SeriesReshaper(Reshaper):
         self._simplecomm.sync()
 
 
+
     def _validate_backend(self):
         if (self.backend not in ["nio", "netcdf"]):
             msg = "Netcdf backend library must be either 'nio' or 'netcdf'"
             raise ValueError(msg)
 
 
-    def _validate_input_files(self, specifier):
+    def _analyze_input_files(self):
         """
-        Perform validation of input data files themselves.  
-
-        We check the file contents here, assuming that the files are already 
-        open.
-
-        Parameters:
-            specifier (Specifier): The reshaper specifier object
+        Perform validation of input data files themselves and analyzes them for
+        information that is helpful in the pre-process stage.  
         """
+
+        print("_analyze_input_files")
 
         # Helpful debugging message
         if self._simplecomm.is_manager():
             self._vprint('Validating input files', verbosity=1)
 
-        # In the first file, look for the 'unlimited' dimension
-        ifile = self._input_files[0]
+        # In the first file, look for the 'unlimited' dimension and get its variables
+        ifile = self.Open_Input_File(self.input_file_list[0], "r")
         self._unlimited_dim = None
         for dim in ifile.dimensions:
             if (self.backend == "nio"): 
@@ -429,102 +420,76 @@ class Slice2SeriesReshaper(Reshaper):
             err_msg = 'Unlimited dimension not identified.'
             raise LookupError(err_msg)
 
+        variables = ifile.variables
+        var_names = set(variables.keys())
+
+        ifile.close()
+
+        missing_vars = set()
+        time_values = []
+
+
         # Make a pass through each file and:
         # (1) Make sure it has the 'unlimited' dimension
         # (2) Make sure this dimension is truely 'unlimited'
         # (3) Check that this dimension has a corresponding variable
-        for i in range(len(self._input_files)):
-            ifile = self._input_files[i]
+        # (4) Make sure that the list of variables in each file is the same
+        # (5) Get the time values for each file so that we can sort the files
+        for i in range(self.num_input_files):
+            ifile = self.Open_Input_File(self.input_file_list[i], "r")
+
+            # Make sure it has the 'unlimited' dimension
             if self._unlimited_dim not in ifile.dimensions:
                 err_msg = 'Unlimited dimension not found in file ({0})'.\
-                          format(specifier.input_file_list[i])
+                          format(self.input_file_list[i])
                 raise LookupError(err_msg)
 
+            # Make sure this dimension is truely 'unlimited'
             if (self.backend == "nio"):
                 if not ifile.unlimited(self._unlimited_dim):
                     err_msg = 'Unlimited dimension not unlimited in file ({0})'.\
-                              format(specifier.input_file_list[i])
+                              format(self.input_file_list[i])
                     raise LookupError(err_msg)
             else:
                 pass
+            
+            # Check that this dimension has a corresponding variable
             if self._unlimited_dim not in ifile.variables:
                 err_msg = 'Unlimited dimension variable not found in file ({0})'.\
-                          format(specifier.input_file_list[i])
+                          format(self.input_file_list[i])
                 raise LookupError(err_msg)
-
-        # Make sure that the list of variables in each file is the same
-        variables = self._input_files[0].variables
-        var_names = set(variables.keys())
-        missing_vars = set()
-        for ifile in self._input_files[1:]:
+            
+            # Make sure that the list of variables in each file is the same            
             var_names_next = set(ifile.variables.keys())
             missing_vars.update(var_names - var_names_next)
+
+            # Get the time values for each file so that we can sort the files
+            if (self.backend == "nio"):
+                time_values.append(ifile.variables[self._unlimited_dim].get_value())
+            else:
+                time_values.append(ifile.variables[self._unlimited_dim][:])
+
+            ifile.close()
+
+        
         if len(missing_vars) != 0:
             warning = "WARNING: The first input file has variables that are " \
                 + "not in all input files:" + os.linesep + '   '
             warning += " ".join(missing_vars)
             self._vprint(warning, header=True, verbosity=1)
 
-    def _sort_input_files_by_time(self, specifier):
-        """
-        Internal method for sorting the input files by time
 
-        This assumes that 'time' is the unlimited dimension, and it checks
-        to make sure that all of the times spanning across each file do not 
-        overlap with each other (i.e., that the times across all files are 
-        monotonicly increasing).
-
-        Currently, this method assumes that all of the input files
-        have the same 'time:units' attribute, such that all time variable
-        values are measured from the same date-time.  When this is true,
-        we do not need to consider the value of the 'time:units'
-        attribute itself.  If this assumption is not true, then we need
-        to consider the 'time:units" attribute of each file, together
-        with that file's time variable values.  To do that properly,
-        however, one should use UDUNITS to do the comparisons.
-
-        Parameters:
-            specifier (Specifier): The reshaper specifier object
-        """
-
-        # Helpful debugging message
-        if self._simplecomm.is_manager():
-            self._vprint('Sorting input files', verbosity=1)
-
-        # Get the time attributes (for convenience) and, for each file,
-        # add the times to a list.  (Each file will have an array of times
-        # associated with it.  Each array will be added to a list, such
-        # that the outer-most list contains an array for each input file)
-        time_values = []
-        for ifile in self._input_files:
-            if (self.backend == "nio"):
-                time_values.append(
-                    ifile.variables[self._unlimited_dim].get_value())
-            else:
-                time_values.append(
-                    ifile.variables[self._unlimited_dim][:])
-
-
-        # Determine the sort order based on the first time in the time values
-        order = range(len(self._input_files))
-        new_order = sorted(order, key=lambda i: time_values[i][0])
-        # if (self.backend == "nio"):
-        #     new_order = sorted(order, key=lambda i: time_values[i][0])
-        # else:
-        #     new_order = sorted(order, key=lambda i: time_values[i])
-
-        # Re-order the list of input files and filenames
-        new_file_list = [None] * len(new_order)
+        # Now we sort the names of the input files
+        order         = range(self.num_input_files)
+        new_order     = sorted(order, key=lambda i: time_values[i][0])
         new_filenames = [None] * len(new_order)
-        new_values = [None] * len(new_order)
+        new_values    = [None] * len(new_order)
         for i in order:
-            new_file_list[i] = self._input_files[new_order[i]]
-            new_filenames[i] = specifier.input_file_list[new_order[i]]
-            new_values[i] = time_values[new_order[i]]
+            new_filenames[i] = self.input_file_list[new_order[i]]
+            new_values[i]    = time_values[new_order[i]]
 
         # Save this data in the new orders
-        self._input_files = new_file_list
-        self._input_filenames = new_filenames
+        self.input_file_list = new_filenames
 
         # Now, check that the largest time in each file is less than the
         # smallest time in the next file (so that the time spans of each file
@@ -540,6 +505,8 @@ class Slice2SeriesReshaper(Reshaper):
         self._all_time_values = \
             numpy.fromiter(itertools.chain.from_iterable(new_values),
                            dtype='float')
+
+
 
     def _sort_variables(self, specifier):
         """
@@ -569,7 +536,8 @@ class Slice2SeriesReshaper(Reshaper):
         self._time_series_variables = {}
 
         # Categorize each variable (only looking at first file)
-        variables = self._input_files[0].variables
+        ifile = self.Open_Input_File(self.input_file_list[0], "r")
+        variables = ifile.variables
         for var_name in variables.keys():
             var = variables[var_name]
             if (self.backend == "nio"):
@@ -598,6 +566,10 @@ class Slice2SeriesReshaper(Reshaper):
         #       a catch for all metadata IFF the 'once-file' is enabled.
         if self._use_once_file:
             self._time_series_variables['once'] = 1
+
+        ifile.close()
+
+
 
     def _validate_output_files(self, specifier,
                                skip_existing=False, overwrite=False):
@@ -661,6 +633,8 @@ class Slice2SeriesReshaper(Reshaper):
                        "variables: {0}").format(existing)
             raise RuntimeError(err_msg)
 
+
+
     def convert(self, output_limit=0):
         """
         Method to perform the Reshaper's designated operation.
@@ -688,7 +662,7 @@ class Slice2SeriesReshaper(Reshaper):
             self._vprint('Converting time-slices to time-series', verbosity=1)
 
         # For data common to all input files, we reference only the first
-        ref_infile = self._input_files[0]
+        ref_infile = self.Open_Input_File(self.input_file_list[0], "r")
 
         # Store the common dimensions and attributes for each file
         # (taken from the first input file in the list)
@@ -886,8 +860,9 @@ class Slice2SeriesReshaper(Reshaper):
 
         series_step_index = 0
         
-        num_input_files = len(self._input_files)
-        for in_file in self._input_files: # Loop over input files
+        
+        for j in xrange(self.num_input_files): # Loop over input files
+            in_file = self.Open_Input_File(self.input_file_list[j], "r")
             # Get the number of time steps in this slice file
             if (self.backend == "nio"):
                 num_steps = in_file.dimensions[self._unlimited_dim]
@@ -955,12 +930,11 @@ class Slice2SeriesReshaper(Reshaper):
 
             # Now we close the input file as it is no longer needed.
             in_file.close()
-            in_file = None  # Clear the contents of the variable to save memory
 
             # Print a progress message
             if self._simplecomm.is_manager():
                 progress_message = "Completed {0:04d} of {1:04d} input files".format(
-                                       series_step_index, num_input_files)
+                                       series_step_index, self.num_input_files)
                 self._vprint(progress_message, header=False, verbosity=1)
 
 
