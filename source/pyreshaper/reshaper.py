@@ -403,6 +403,72 @@ class Slice2SeriesReshaper(Reshaper):
         self._simplecomm.sync()
 
 
+    def _get_unlim_dim_len(self, fhandle, unlim_dim_name):
+        """
+        Backend abstraction method to get the length of the unlimited dimension.
+
+        ARGUMENTS
+            fhandle - opened netcdf file handle returned from either backend library
+            unlim_dim_name - name of the unlimited dimension
+        RETURNS
+            Length og the unlimited dimension
+        """
+        return fhandle.dimensions[unlim_dim_name] if (self._backend == "nio") else \
+               len(fhandle.dimensions[unlim_dim_name])
+
+
+    def _get_var_ndims(self, var):
+        """
+        Backend abstraction method to get the number of dimensions for a variable
+
+        ARGUMENTS
+            var - variable object returned from either backend library
+        RETURNS
+            Number of dimensions
+        """
+        return len(var.dimensions) if (self._backend == "nio") else var.ndim
+
+
+    def _create_nc_variable(self, out_file, out_name, in_var):
+        """
+        Backend abstraction method to create a netcdf variable in an output file.
+
+        ARGUMENTS
+            out_file - output file handle from either backend
+            out_name - name of the variable to create
+            in_var   - variable object return from either backend and which corresponds
+                       to a variable in an input file.
+        RETURNS
+            output variable object
+        """
+        if (self._backend == "nio"):
+            return out_file.create_variable(out_name,
+                                            in_var.typecode(), 
+                                            in_var.dimensions)
+        else:
+            return out_file.createVariable(out_name,
+                                           in_var.dtype,
+                                           in_var.dimensions,
+                                           **self._netcdf_var_options)
+
+
+    def _copy_nc_var_attributes(self, out_var, in_var):
+        """
+        Copy netcdf attributes from one file to amother
+        ARGUMENTS
+            out_var - variable object from either backend
+            in_var  - variable object from either backend
+        RETURNS
+            variable object for the output variable
+        """
+        if (self._backend == "nio"):
+            for att_name, att_val in in_var.attributes.iteritems():
+                setattr(out_var, att_name, att_val)
+        else:
+            out_var.setncatts(in_var.__dict__)
+        return out_var
+
+
 
     def _validate_backend(self):
         if (self._backend not in ["nio", "netcdf"]):
@@ -812,53 +878,24 @@ class Slice2SeriesReshaper(Reshaper):
                 if self._timecode: self._timer.start('Create Time-Invariant Metadata')
                 for name in self._time_invariant_metadata:
                     in_var = ref_infile.variables[name]
-                    if (self._backend == "nio"):
-                        out_var = out_file.create_variable(name,
-                                                           in_var.typecode(),
-                                                           in_var.dimensions)
-                        for att_name, att_val in in_var.attributes.iteritems():
-                            setattr(out_var, att_name, att_val)
-                    else:
-                        out_var = out_file.createVariable(name,
-                                                          in_var.dtype,
-                                                          in_var.dimensions,
-                                                          **self._netcdf_var_options)
-                        out_var.setncatts(in_var.__dict__)
-
+                    out_var = self._create_nc_variable(out_file, name, in_var)
+                    out_var = self._copy_nc_var_attributes(out_var, in_var)
                 if self._timecode: self._timer.stop('Create Time-Invariant Metadata')
 
             # Create the time-variant metadata variables
             if write_meta:
                 if self._timecode: self._timer.start('Create Time-Variant Metadata')
                 for name in self._time_variant_metadata:
-                    in_var = ref_infile.variables[name]
-                    if (self._backend == "nio"):
-                        out_tvm_vars[name] = out_file.create_variable(name,
-                                                                      in_var.typecode(), 
-                                                                      in_var.dimensions)
-                        for att_name, att_val in in_var.attributes.iteritems():
-                            setattr(out_tvm_vars[name], att_name, att_val)
-                    else:
-                        out_tvm_vars[name] = out_file.createVariable(name,
-                                                                     in_var.dtype, 
-                                                                     in_var.dimensions,
-                                                                     **self._netcdf_var_options)
-                        out_tvm_vars[name].setncatts(in_var.__dict__)
+                    in_var  = ref_infile.variables[name]
+                    out_tvm_vars[name] = self._create_nc_variable(out_file, name, in_var)
+                    out_tvm_vars[name] = self._copy_nc_var_attributes(out_tvm_vars[name], in_var)
                 if self._timecode: self._timer.stop('Create Time-Variant Metadata')
 
             # Create the time-series variable itself
             if write_tser:
                 if self._timecode: self._timer.start('Create Time-Series Variables')
-                in_var = ref_infile.variables[out_name]
-                if (self._backend == "nio"):
-                    out_var = out_file.create_variable(out_name,
-                                                       in_var.typecode(), 
-                                                       in_var.dimensions)
-                else:
-                    out_var = out_file.createVariable(out_name,
-                                                      in_var.dtype,
-                                                      in_var.dimensions,
-                                                      **self._netcdf_var_options)
+                in_var  = ref_infile.variables[out_name]
+                out_var = self._create_nc_variable(out_file, out_name, in_var)
                 if self._timecode: self._timer.stop('Create Time-Series Variables')
 
             # Append the output file to list
@@ -873,19 +910,11 @@ class Slice2SeriesReshaper(Reshaper):
         for out_name, out_file in out_files.iteritems():
             is_once_file, write_meta, write_tser = _get_once_info(out_name)
 
-            dbg_msg = 'Writing output file for variable: {0}'.format(out_name)
-            if is_once_file: dbg_msg = 'Writing "once" file.'
-            self._vprint(dbg_msg, header=True, verbosity=1)
-
             # Create the attributes of the time-series variable
             if write_tser:
                 in_var = ref_infile.variables[out_name]
                 out_var = out_file.variables[out_name]
-                if (self._backend == "nio"):
-                    for att_name, att_val in in_var.attributes.iteritems():
-                        setattr(out_var, att_name, att_val)
-                else:
-                    out_var.setncatts(in_var.__dict__)
+                out_var = self._copy_nc_var_attributes(out_var, in_var)
 
             # Write the time-invariant metadata
             if write_meta:
@@ -910,10 +939,7 @@ class Slice2SeriesReshaper(Reshaper):
         for j in xrange(self.num_input_files): # Loop over input files
             in_file = self.Open_Input_File(self.input_file_list[j], "r")
             # Get the number of time steps in this slice file
-            if (self._backend == "nio"):
-                num_steps = in_file.dimensions[self._unlimited_dim]
-            else:
-                num_steps = len(in_file.dimensions[self._unlimited_dim])
+            num_steps = self._get_unlim_dim_len(in_file, self._unlimited_dim)
 
             # Loop over output variables
             for out_name, out_file in out_files.iteritems():
@@ -927,12 +953,7 @@ class Slice2SeriesReshaper(Reshaper):
                         for name in self._time_variant_metadata:
                             in_meta  = in_file.variables[name]
                             out_meta = out_file.variables[name]
-                            
-                            if (self._backend == "nio"):
-                                ndims = len(in_meta.dimensions)
-                            else:
-                                ndims = in_meta.ndim
-                            
+                            ndims = self._get_var_ndims(in_meta)
                             udidx = in_meta.dimensions.index(self._unlimited_dim)
                             in_slice = [slice(None)] * ndims
                             in_slice[udidx] = slice_step_index
@@ -950,18 +971,14 @@ class Slice2SeriesReshaper(Reshaper):
 
                     # Write the time-series variables
                     if write_tser:
-                        in_var = in_file.variables[out_name]
+                        in_var  = in_file.variables[out_name]
                         out_var = out_file.variables[out_name]
-                        if (self._backend == "nio"):
-                            ndims = len(in_var.dimensions)
-                        else:
-                            ndims = in_var.ndim
-                        udidx = in_var.dimensions.index(self._unlimited_dim)
-                        in_slice = [slice(None)] * ndims
+                        ndims   = self._get_var_ndims(in_var)
+                        udidx   = in_var.dimensions.index(self._unlimited_dim)
+                        in_slice= [slice(None)] * ndims
                         in_slice[udidx] = slice_step_index
                         out_slice = [slice(None)] * ndims
                         out_slice[udidx] = series_step_index
-                        # print out_name, in_var[tuple(in_slice)].shape
                         out_var[tuple(out_slice)] = in_var[tuple(in_slice)]
 
                         requested_nbytes = in_file.variables[
@@ -978,12 +995,13 @@ class Slice2SeriesReshaper(Reshaper):
             in_file.close()
 
             # Print a progress message
-            if self._simplecomm.is_manager():
-                progress_message = "Completed {0:04d} of {1:04d} input files".format(
-                                       series_step_index, self.num_input_files)
-                self._vprint(progress_message, header=False, verbosity=1)
+            progress_message = "Completed {0:04d} of {1:04d} input files".format(
+                                   series_step_index, self.num_input_files)
+            self._vprint(progress_message, header=True, verbosity=1)
 
 
+        self._vprint("Process {0} Completed Work!".format(self._simplecomm.get_rank()), 
+                     header=False, verbosity=1)
 
         # Information
         self._simplecomm.sync()
