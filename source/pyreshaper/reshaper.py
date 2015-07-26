@@ -13,6 +13,7 @@ See the LICENSE.txt file for details
 import abc
 import os
 import itertools
+import time
 
 # Third-party imports
 import Nio
@@ -275,6 +276,13 @@ class Slice2SeriesReshaper(Reshaper):
         self._timecode   = timecode
         self._need_to_sort_files = sort_files
         self._backend = backend
+
+        self.tune               = False
+        self.use_tuning_data    = False
+        self.save_tuning_data   = False
+        self.input_tuning_file  = None
+        self.output_tuning_file = None
+
         self._validate_backend()
 
 
@@ -784,9 +792,26 @@ class Slice2SeriesReshaper(Reshaper):
             common_atts = ref_infile.__dict__
 
         # Partition the time-series variables across all processors
-        tsv_names_loc = self._simplecomm.partition(self._time_series_variables.items(),
-                                                   func=WeightBalanced(),
-                                                   involved=True)
+        if not self.use_tuning_data:
+            if self._simplecomm.is_manager():
+                self._vprint('Partitioning variables WITHOUT tuning data', verbosity=1)
+            tsv_names_loc = self._simplecomm.partition(self._time_series_variables.items(),
+                                                       func=WeightBalanced(),
+                                                       involved=True)
+        else:
+            if self._simplecomm.is_manager():
+                self._vprint('Partitioning variables WITH tuning data', verbosity=1)
+            varsbytimes = {}
+            for line in open(self.input_tuning_file, "r").readlines():
+                tmp = line.strip().split()
+                varsbytimes[tmp[0]] = float(tmp[-1])
+            tsv_names_loc = self._simplecomm.partition(varsbytimes.items(),
+                                                       func=WeightBalanced(),
+                                                       involved=True)
+
+
+        
+
         if output_limit > 0:
             tsv_names_loc = tsv_names_loc[0:output_limit]
 
@@ -933,6 +958,16 @@ class Slice2SeriesReshaper(Reshaper):
                 if self._timecode: self._timer.stop('Write Time-Invariant Metadata')
 
 
+        if self.tune:
+            # var_writing_times is a dictionary where the keys will be the variable
+            # names and the values will be a 2-element list. The first element is the
+            # rank that has processed the variable, and the second element is the 
+            # total time taken to write the variables to the output time-series file. 
+            self.var_writing_times = {}
+            __rank = self._simplecomm.get_rank()
+            for var_name in out_files.keys(): 
+                self.var_writing_times[var_name] = [0.0, __rank]
+
         series_step_index = 0
         
         
@@ -945,6 +980,7 @@ class Slice2SeriesReshaper(Reshaper):
             for out_name, out_file in out_files.iteritems():
                 is_once_file, write_meta, write_tser = _get_once_info(out_name)
                 
+                if self.tune: start = time.time() # Record the starting time
                 # Loop over the time steps in this slice file
                 for slice_step_index in range(num_steps):
 
@@ -988,6 +1024,12 @@ class Slice2SeriesReshaper(Reshaper):
                             * numpy.ceil(requested_nbytes / self.assumed_block_size)
                         self._byte_counts['Actual Data'] += actual_nbytes
 
+                if self.tune:
+                    # Record the end time and increase the total time for this variables
+                    # by the amount taken this time round. 
+                    end = time.time()
+                    self.var_writing_times[out_name][0] += (end - start)
+
             # Increment the time-series step index
             series_step_index += 1
 
@@ -995,9 +1037,14 @@ class Slice2SeriesReshaper(Reshaper):
             in_file.close()
 
             # Print a progress message
-            progress_message = "Completed {0:04d} of {1:04d} input files".format(
-                                   series_step_index, self.num_input_files)
-            self._vprint(progress_message, header=True, verbosity=1)
+            # NOTE: This progress indicator is only reasonably accurate when the 
+            # load-balancing across the MPI processes is done using tuning data, 
+            # otherwise some processes can finish way earlier than others and the
+            # progress indicated will be inaccurate. 
+            if self._simplecomm.is_manager():
+                progress_message = "Completed {0:04d} of {1:04d} input files".format(
+                                       series_step_index, self.num_input_files)
+                self._vprint(progress_message, header=False, verbosity=1)
 
 
         self._vprint("Process {0} Completed Work!".format(self._simplecomm.get_rank()), 
@@ -1011,6 +1058,55 @@ class Slice2SeriesReshaper(Reshaper):
 
         # Finish clocking the entire convert procedure
         if self._timecode: self._timer.stop('Complete Conversion Process')
+
+        if self.tune: self.print_tuning_data()
+
+    
+    def print_tuning_data(self):
+        """
+        Print (and optionally also save) the tuning data. 
+        """
+        if not self._simplecomm.is_manager():
+            # Non-manager ranks send their dictionary of variable and the time it
+            # took to write them to the rank 0 process (manager)
+            self._simplecomm._comm.send(self.var_writing_times, dest=0, tag=67)
+        else:
+            world_size = self._simplecomm.get_size()
+            # This is the manager process; receive the sent data from all other
+            # processes and update its own dictionary with their data.
+            for i in range(1, world_size):
+                self.var_writing_times.update(self._simplecomm._comm.recv(source=i, tag=67))
+
+            # Now self.var_writing_times contains the data for all the variables
+            # across all the files.
+
+            # Open the output file if we are to save the tuning data
+            if self.save_tuning_data:  of = open(self.output_tuning_file, "w")
+
+            format_values = {} # Dcitionary to store data that we'll use in printing formatted strings
+            rank_times    = {} # Dcitionary to store total time used for writing by each rank
+            for i in range(world_size): rank_times[i] = 0.0
+
+            for key, value in self.var_writing_times.iteritems():
+                format_string = "{var:20s} {rank:3d}   {size:8d}   {time:.6g}"
+                format_values["var"]  = key
+                format_values["rank"] = value[1]
+                format_values["size"] = self._time_series_variables[key]
+                format_values["time"] = value[0]
+                # 1) Print to screen
+                print(format_string.format(**format_values))
+                # 2) Optionally, save the data to file
+                if self.save_tuning_data: of.write((format_string+"\n").format(**format_values))
+
+                rank_times[value[1]] += value[0]
+
+            print("Rank times :::")
+            for r,t in rank_times.iteritems(): print("{0:3d}  {1:.6g}".format(r,t))
+
+            if self.save_tuning_data: print("Tuning data saved to file: {0}".format(self.output_tuning_file))
+
+
+
 
     def print_diagnostics(self):
         """
