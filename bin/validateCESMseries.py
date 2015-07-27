@@ -61,7 +61,7 @@ def get_unlimited_dimension(series_file):
 
 
 
-def worker(work_queue, return_queue, unlim_dim, slice_files, backend):
+def worker(data):
     """
     DESCRIPTION
         The main code that will be executed by all workers processes. 
@@ -76,6 +76,8 @@ def worker(work_queue, return_queue, unlim_dim, slice_files, backend):
     RETURNS
 
     """
+    work_queue, return_queue, unlim_dim, slice_files, backend = data
+
     logger = multiprocessing.get_logger()  # get the logger for the multiprocessing module
 
     opened_files = []
@@ -159,7 +161,7 @@ def worker(work_queue, return_queue, unlim_dim, slice_files, backend):
     return
 
 
-def subcommand_range(args):
+def generate_files(args):
     case        = CESMCase(args.case)
 
     total_years = args.end - args.start + 1
@@ -190,11 +192,7 @@ def subcommand_range(args):
     print("| Number of files to operate upon: {0:3d} |".format(len(slice_files)))
     print("+--------------------------------------+")
 
-    main(slice_files, args.prefix, args.n, args.backend)
-
-
-def subcommand_files(args):
-    main(args.slice_files, args.prefix, args.n, args.backend)
+    return slice_files
 
 
 def main(slice_files, prefix, nprocs, backend):
@@ -226,8 +224,8 @@ def main(slice_files, prefix, nprocs, backend):
 
     processes = []  # List of parallel processes
     for i in range(nprocs):
-        p = Process(target=worker, args=(work_queue, return_queue,
-                                         unlim_dim, slice_files, backend))
+        data = [work_queue, return_queue, unlim_dim, slice_files, backend]
+        p = Process(target=worker, args=(tuple(data),))
         p.start()
         processes.append(p)
         work_queue.put('STOP')  # Putting a poison pill for the workers
@@ -255,9 +253,54 @@ def main(slice_files, prefix, nprocs, backend):
     # <<<<<<<<< Checking results
 
 
+def specification():
+    class ExtractSpecificationData(argparse.Action):
+        """Action to extract specification data from the command line
+        argument if the user has chosen to specify input files using
+        the specification method. """
+        def __call__(self, parser, namespace, values, option_string=None):
+            message = ''
+            if (len(values) != 4):
+                message = 'argument "{}" requires 4 arguments'.format(self.dest)
+
+            if values[0].isdigit():
+              raise ValueError('first argument to "{}" requires a string'.format(self.dest))
+
+            model_choices = ["atm", "lnd", "ocn", "ice"]
+            if values[1] not in model_choices:
+              raise ValueError('second argument to "{0}" must be one of {1}'.format(
+                     self.dest, model_choices))
+
+            try:
+                values[2] = int(values[2])
+            except ValueError:
+                message = ('third argument to "{}" requires an integer'.format(self.dest))
+
+            try:
+                values[3] = int(values[3])
+            except ValueError:
+                message = ('fourth argument to "{}" requires an integer'.format(self.dest))
+
+            if (values[2] > values[3]):
+                message = ('fourth argument to "{}" must be >= third argument'.format(self.dest))              
+
+            if message: raise argparse.ArgumentError(self, message)            
+            setattr(namespace, "case", values[0])
+            setattr(namespace, "model", values[1])
+            setattr(namespace, "start", values[2])
+            setattr(namespace, "end", values[3])
+    return ExtractSpecificationData
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="validateCESMseries.py")
-    parser.add_argument('--prefix',  type=str, help='filename prefix', required=True)
+    parser.add_argument('--prefix',  type=str, help='filename prefix of the timeseries files', required=True)
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--files', type=str, nargs='+', help='Specify a list of input files')
+    group.add_argument('--spec',  dest='spec', nargs='+', help='Select input files using '
+                       'specification', action=specification())
+
 
     backend_choices = []
     if netcdf_available: backend_choices.append("netcdf")
@@ -269,21 +312,14 @@ if __name__ == "__main__":
     parser.add_argument('--backend', type=str, choices=backend_choices, 
                         default=backend_choices[0], help='netcdf backend to use')
 
-    subparsers = parser.add_subparsers(help='help for subcommand')
+    parser.add_argument('-n',    type=int, default=16, help='number of parallel processes')
 
-    parser_a = subparsers.add_parser('files', help='files help')
-    parser_a.add_argument('slice_files', nargs='+', type=str, help="All time slice files used "
-                                       "in the creation of the timeseries files")
-    parser_a.set_defaults(func=subcommand_files)
-    parser_b = subparsers.add_parser('range', help='help for range')
-    parser_b.add_argument('case',  type=str, help='CESM case name')
-    parser_b.add_argument('model', type=str, choices=["atm", "lnd", "ocn", "ice"], help='models component to process')
-    parser_b.add_argument('start', type=int, help='start year')
-    parser_b.add_argument('end',   type=int, help='end year')
-    parser_b.set_defaults(func=subcommand_range)
-
-    parser.add_argument('-n',    type=int, default=8, help='number of parallel processes')
 
     args = parser.parse_args()
-    args.func(args)
 
+    if args.files is not None:
+        slice_files = args.files
+    else:
+        slice_files = generate_files(args)
+
+    main(slice_files, args.prefix, args.n, args.backend)
