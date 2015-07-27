@@ -299,6 +299,7 @@ class Slice2SeriesReshaper(Reshaper):
         # or to write to new output files. (Boolean)
         self._append            = append
 
+        # Whether to perform post-conversion check on the consistency of data
         self._check             = check
 
         self._validate_values(skip_existing, overwrite)
@@ -333,8 +334,7 @@ class Slice2SeriesReshaper(Reshaper):
         if self._timecode: self._timer.start('Specifier Validation')
         specifier.validate()
         if self._timecode: self._timer.stop('Specifier Validation')
-        if self._simplecomm.is_manager():
-            self._vprint('Specifier validated', verbosity=1)
+        if self._simplecomm.is_manager(): self._vprint('Specifier validated', verbosity=1)
 
 
         if (self._backend == "nio"):
@@ -360,9 +360,12 @@ class Slice2SeriesReshaper(Reshaper):
             if self._simplecomm.is_manager():
                 self._vprint('PyNIO options set', verbosity=2)
         else:
+            # arguments passed onto netCDF.Dataset
             self._netcdf_dataset_options = {}
-            self._netcdf_dim_options = {}
-            self._netcdf_var_options = {}
+            # arguments passed onto Dataset.createDimension
+            self._netcdf_dim_options     = {}
+            # arguments passed onto Dataset.createVariable
+            self._netcdf_var_options     = {}
             if specifier.netcdf_format == 'netcdf':
                 self._netcdf_dataset_options["format"]  = "NETCDF3_64BIT"
             elif specifier.netcdf_format == 'netcdf4':
@@ -379,14 +382,6 @@ class Slice2SeriesReshaper(Reshaper):
                 self._vprint('netCDF4 options set', verbosity=2)
 
        
-        # This is an abstracted attribute to open input files transparently
-        # regardless of the backend
-        if (self._backend == "nio"):
-            self.Open_Input_File = Nio.open_file
-        else:
-            self.Open_Input_File = netCDF4.Dataset
-
-
         # Copying the list of input file names into this class
         self.input_file_list = specifier.input_file_list
         self.num_input_files = len(self.input_file_list)
@@ -423,6 +418,20 @@ class Slice2SeriesReshaper(Reshaper):
 
         # Sync before continuing..
         self._simplecomm.sync()
+
+
+    def Open_nc_file_for_reading(self, fname):
+        """
+        Backend abstraction method for opening netcdf files for reading.
+        ARGUMENTS
+            fname - (string) name of the file to open
+        RETURN
+            file handle object
+        """
+        return Nio.open_file(fname, "r") if (self._backend == "nio") else \
+               netCDF4.Dataset(fname, "r")
+
+
 
 
     def _get_unlim_dim_len(self, fhandle, unlim_dim_name):
@@ -552,7 +561,8 @@ class Slice2SeriesReshaper(Reshaper):
             self._vprint('Validating input files', verbosity=1)
 
             # In the first file, look for the 'unlimited' dimension and get its variables
-            ifile = self.Open_Input_File(self.input_file_list[0], "r")
+            # ifile = self.Open_Input_File(self.input_file_list[0], "r")
+            ifile = self.Open_nc_file_for_reading(self.input_file_list[0])
             self._unlimited_dim = None
             for dim in ifile.dimensions:
                 if (self._backend == "nio"): 
@@ -586,7 +596,8 @@ class Slice2SeriesReshaper(Reshaper):
             # (5) Get the time values for each file so that we can sort the files
             if self._preprocess:  # We only do this if we've been asked to preprocess
                 for i in range(self.num_input_files):
-                    ifile = self.Open_Input_File(self.input_file_list[i], "r")
+                    ifile = self.Open_nc_file_for_reading(self.input_file_list[i])
+                    # ifile = self.Open_Input_File(self.input_file_list[i], "r")
 
                     # Make sure it has the 'unlimited' dimension
                     if self._unlimited_dim not in ifile.dimensions:
@@ -703,7 +714,7 @@ class Slice2SeriesReshaper(Reshaper):
         self._time_series_variables = {}
 
         # Categorize each variable (only looking at first file)
-        ifile = self.Open_Input_File(self.input_file_list[0], "r")
+        ifile = self.Open_nc_file_for_reading(self.input_file_list[0])
         variables = ifile.variables
         for var_name in variables.keys():
             var = variables[var_name]
@@ -793,7 +804,8 @@ class Slice2SeriesReshaper(Reshaper):
                 # 3. That the length of the unlimited dimension is the same in all
                 #    existing output files.
                 if self._append:
-                    ifile = self.Open_Input_File(filename, "r")
+                    ifile = self.Open_nc_file_for_reading(filename)
+
 
                     assert(self._unlimited_dim in ifile.dimensions.keys())
                     
@@ -888,6 +900,10 @@ class Slice2SeriesReshaper(Reshaper):
 
 
     def _get_once_info(self, vname):
+        # Defining a simple helper function to determine whether to
+        # write time-series data and/or write metadata.  This is useful
+        # for adding the ability to write a "once" file
+
         is_once_file = (vname == 'once')
         write_meta = True
         write_tser = True
@@ -925,7 +941,7 @@ class Slice2SeriesReshaper(Reshaper):
             self._vprint('Converting time-slices to time-series', verbosity=1)
 
         # For data common to all input files, we reference only the first
-        ref_infile = self.Open_Input_File(self.input_file_list[0], "r")
+        ref_infile = self.Open_nc_file_for_reading(self.input_file_list[0])
 
         # Store the common dimensions and attributes for each file
         # (taken from the first input file in the list)
@@ -978,18 +994,6 @@ class Slice2SeriesReshaper(Reshaper):
         # Initialize the byte count dictionary
         self._byte_counts['Requested Data'] = 0
         self._byte_counts['Actual Data'] = 0
-
-        # Defining a simple helper function to determine whether to
-        # write time-series data and/or write metadata.  This is useful
-        # for adding the ability to write a "once" file
-        # def _get_once_info(vname):
-        #     is_once_file = (vname == 'once')
-        #     write_meta = True
-        #     write_tser = True
-        #     if self._use_once_file:
-        #         write_meta = is_once_file
-        #         write_tser = not is_once_file
-        #     return is_once_file, write_meta, write_tser
 
         # NOTE: In the prototype, we check for the existance of the output
         # directory at this point.  If it does not exist, we create it (but
@@ -1149,7 +1153,7 @@ class Slice2SeriesReshaper(Reshaper):
         num_files_processed = 0
         
         for j in xrange(self.num_input_files): # Loop over input files
-            in_file = self.Open_Input_File(self.input_file_list[j], "r")
+            in_file = self.Open_nc_file_for_reading(self.input_file_list[j])
             # Get the number of time (unlimited dimension) steps in this slice file
             num_steps = self._get_unlim_dim_len(in_file, self._unlimited_dim)
 
@@ -1265,44 +1269,57 @@ class Slice2SeriesReshaper(Reshaper):
 
         series_step_index = int(self.append_start_index) if self._append else 0
 
+        # Will store here data about variables that failed testing
         fail_data = defaultdict(int)
-        
+
         for j in xrange(self.num_input_files):
-            in_file = self.Open_Input_File(self.input_file_list[j], "r")
+            in_file   = self.Open_nc_file_for_reading(self.input_file_list[j])
             num_steps = self._get_unlim_dim_len(in_file, self._unlimited_dim)
             for out_name, out_file in out_files.iteritems():
                 is_once_file, write_meta, write_tser = self._get_once_info(out_name)
 
                 all_okay = True
                 for slice_step_index in range(num_steps):
+                    # Presently only checking for time series variables
                     if write_tser:
                         in_var  = in_file.variables[out_name]
                         out_var = out_file.variables[out_name]
 
-                        ndims   = self._get_var_ndims(in_var)
-                        udidx   = in_var.dimensions.index(self._unlimited_dim)
-                        in_slice= [slice(None)] * ndims
-                        in_slice[udidx] = slice_step_index
-                        out_slice = [slice(None)] * ndims
-                        out_slice[udidx] = series_step_index
-                        try:
-                            assert(np.allclose(out_var[tuple(out_slice)], 
-                                               in_var[tuple(in_slice)]))
-                        except AssertionError:
-                            print ("Error")
-                            all_okay = False
+                        # We check the datatype, because we can only use np.allclose
+                        # on numeric datatypes. 
+                        if (self._backend == "nio"):
+                            var_dtype = np.dtype(out_var.typecode())
+                        else:
+                            var_dtype = out_var.dtype
+
+                        # Checking 'non-string' variables only
+                        if (var_dtype != np.dtype('S1')):
+                            ndims   = self._get_var_ndims(in_var)
+                            udidx   = in_var.dimensions.index(self._unlimited_dim)
+                            in_slice= [slice(None)] * ndims
+                            in_slice[udidx] = slice_step_index
+                            out_slice = [slice(None)] * ndims
+                            out_slice[udidx] = series_step_index
+                            try:
+                                assert(np.allclose(out_var[tuple(out_slice)], 
+                                                   in_var[tuple(in_slice)]))
+                            except AssertionError:
+                                print ("Error")
+                                all_okay = False
                 
                 if not all_okay: fail_data[out_name] += 1
 
             in_file.close()
             series_step_index += 1
 
+        # We are done with validation. Now we will access if there were any 
+        # failures and print the appropriate message
 
+        # But first, we send data from all processes to the manager process
         if not self._simplecomm.is_manager():
             self._simplecomm._comm.send(fail_data, dest=0, tag=66)
         else:
-            world_size = self._simplecomm.get_size()
-            for i in range(1, world_size):
+            for i in range(1, self._simplecomm.get_size()):
                 fail_data.update(self._simplecomm._comm.recv(source=i, tag=66))
 
             if len(fail_data.keys()) == 0:
@@ -1310,6 +1327,8 @@ class Slice2SeriesReshaper(Reshaper):
                 print("|" + "PASSED! CONVERSION SUCCESSFULL!".center(78) + "|")
                 print("+" + "-"*78 + "+")
             else:
+                for item in fail_data.keys():
+                    print("Failed : {0} for {1} timesteps".format(item, fail_data[item]))
                 print("|" + "ERROR! CONVERSION NOT SUCCESSFULL! ERROR!".center(78) + "|")
 
  

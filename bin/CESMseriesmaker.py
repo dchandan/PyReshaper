@@ -189,36 +189,37 @@ def main(args):
 
       print("#"*80)
 
-      # The CESM case object
-      case        = CESMCase(args.case)
+      if (not args.files):
+        # The CESM case object
+        case        = CESMCase(args.case)
 
-      total_years = args.end - args.start + 1
-      years       = range(args.start, args.end + 1)
+        total_years = args.end - args.start + 1
+        years       = range(args.start, args.end + 1)
+        
+        # A mapping between model names and file corresponding file names
+        mtypes    = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
+        freqtypes = {"atm":"h0",   "lnd":"h0",   "ocn":"h",   "ice":"h"}
+
+
+        comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
+
+        # Generating the list of files that need to be worked on
+        list_of_files = []
+        for year in years:
+            pattern = "{0}/{1}.{2}.{3}.{4:04d}*.nc".format(comp_direc,
+                                                          args.case, 
+                                                          mtypes[args.model], 
+                                                          freqtypes[args.model], 
+                                                          year)
+            list_of_files.extend(glob.glob(pattern))
+
+        list_of_files.sort()
+      else:
+        list_of_files = args.files
       
-      # A mapping between model names and file corresponding file names
-      mtypes    = {"atm":"cam2", "lnd":"clm2", "ocn":"pop", "ice":"cice"}
-      freqtypes = {"atm":"h0",   "lnd":"h0",   "ocn":"h",   "ice":"h"}
-
-
-      comp_direc = ospath.join(case.DOUT_S_ROOT, args.model, "hist")
-
-      # Generating the list of files that need to be worked on
-      list_of_files = []
-      for year in years:
-          pattern = "{0}/{1}.{2}.{3}.{4:04d}*.nc".format(comp_direc,
-                                                        args.case, 
-                                                        mtypes[args.model], 
-                                                        freqtypes[args.model], 
-                                                        year)
-          list_of_files.extend(glob.glob(pattern))
-
-      list_of_files.sort()
-
-      # print("+--------------------------------------+")
       print("+" + "-"*78 + "+")
       print("|" + ("Number of files to operate upon: {0:3d}".format(len(list_of_files))).center(78) + "|")
       print("+" + "-"*78 + "+")
-      # print("+--------------------------------------+")
 
     else:
       list_of_files = None
