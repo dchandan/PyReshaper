@@ -91,6 +91,8 @@ def cli():
 
     outputoptions = parser.add_argument_group('Output settings', 'Options for '
                       'the output timeseries files')
+    outputoptions.add_argument('--append', default=False, action='store_true', 
+                      help='Append to existing output files')
     outputoptions.add_argument('-d', '--deflate', default=3, type=int, action='store',
                       help='Compression level for the output files. [Default: 3]')
     outputoptions.add_argument('--skip-existing', default=False,
@@ -165,6 +167,7 @@ def main(args):
       print("    Output directory : {0}\n".format(args.odir))
       
       print("Output settings")
+      print("    Append?          : {0}".format(args.append))
       print("    Once             : {0}".format(args.once))
       print("    Skip Existing?   : {0}".format(args.skip_existing))
       print("    Overwrite?       : {0}".format(args.overwrite))
@@ -209,9 +212,11 @@ def main(args):
 
       list_of_files.sort()
 
-      print("+--------------------------------------+")
-      print("| Number of files to operate upon: {0:3d} |".format(len(list_of_files)))
-      print("+--------------------------------------+")
+      # print("+--------------------------------------+")
+      print("+" + "-"*78 + "+")
+      print("|" + ("Number of files to operate upon: {0:3d}".format(len(list_of_files))).center(78) + "|")
+      print("+" + "-"*78 + "+")
+      # print("+--------------------------------------+")
 
     else:
       list_of_files = None
@@ -220,7 +225,8 @@ def main(args):
     list_of_files = simplecomm._comm.bcast(list_of_files, root=0)
 
 
-    output_prefix = "tseries_{0}_{1}.".format(args.start, args.end)
+    # output_prefix = "tseries_{0}_{1}.".format(args.start, args.end)
+    output_prefix = "tseries."
 
     # Create the input object for the Reshaper
     spec = create_specifier(infiles=list_of_files,
@@ -237,6 +243,7 @@ def main(args):
                              verbosity=args.verbosity,
                              skip_existing=args.skip_existing,
                              overwrite=args.overwrite,
+                             append=args.append,
                              once=args.once,
                              simplecomm=simplecomm,
                              backend=args.backend,
