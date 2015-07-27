@@ -81,7 +81,7 @@ def cli():
     parser = argparse.ArgumentParser(prog="{0}: Convert CESM slice files to "
                        "series files".format(__file__))
 
-    group = parser.add_mutually_exclusive_group()
+    group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--files', type=str, nargs='+', help='Specify a list of files')
     group.add_argument('--spec',  dest='spec', nargs='+', help='Select files using '
                        'specification', action=specification())
@@ -129,6 +129,8 @@ def cli():
                            'processor to write.  Useful when debugging.  A '
                            'limit of 0 means write all output files.'
                            '[Default: 0]')
+    prog_options.add_argument('--no-check', action='store_false', dest="check",
+                  help='Whether to check the output files after creation. [Default: False]')
 
     
     tuning = parser.add_argument_group('Tuning', 'Specify whether to generate '
@@ -249,7 +251,8 @@ def main(args):
                              backend=args.backend,
                              timecode=args.timecode,
                              sort_files=False,
-                             preprocess=args.preprocess)
+                             preprocess=args.preprocess,
+                             check=args.check)
     if args.tune:
       reshpr.tune = True
       if args.save_tuning_file: 

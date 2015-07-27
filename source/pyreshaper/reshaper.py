@@ -14,11 +14,12 @@ import abc
 import os
 import itertools
 import time
+from collections import defaultdict
 
 # Third-party imports
 import Nio
 import netCDF4
-import numpy
+import numpy as np
 from asaptools.simplecomm import create_comm, SimpleComm, SimpleCommMPI
 from asaptools.timekeeper import TimeKeeper
 from asaptools.partition import WeightBalanced
@@ -34,7 +35,8 @@ from specification import Specifier
 def create_reshaper(specifier, serial=False, verbosity=1,
                     skip_existing=False, overwrite=False, append=False,
                     once=False, simplecomm=None, backend="netcdf",
-                    timecode=True, preprocess=True, sort_files=True):
+                    timecode=True, preprocess=True, sort_files=True, 
+                    check=True):
     """
     Factory function for Reshaper class instantiations.
 
@@ -82,7 +84,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                     backend=backend,
                                     timecode=timecode,
                                     preprocess=preprocess,
-                                    sort_files=sort_files)
+                                    sort_files=sort_files,
+                                    check=check)
     elif isinstance(specifier, list):
         spec_dict = dict([(str(i), s) for (i, s) in enumerate(specifier)])
         return create_reshaper(spec_dict,
@@ -96,7 +99,8 @@ def create_reshaper(specifier, serial=False, verbosity=1,
                                backend=backend,
                                timecode=timecode,
                                preprocess=preprocess,
-                               sort_files=sort_files)
+                               sort_files=sort_files,
+                               check=check)
     elif isinstance(specifier, dict):
         spec_types = set([type(s) for s in specifier.values()])
         if len(spec_types) > 1:
@@ -221,7 +225,8 @@ class Slice2SeriesReshaper(Reshaper):
     def __init__(self, specifier, serial=False, verbosity=1,
                  skip_existing=False, append=False, overwrite=False,
                  once=False, simplecomm=None, backend="netcdf",
-                 timecode=True, preprocess=True, sort_files=True):
+                 timecode=True, preprocess=True, sort_files=True,
+                 check=True):
         """
         Constructor
 
@@ -293,6 +298,8 @@ class Slice2SeriesReshaper(Reshaper):
         # Determine whether to append the time-series data to existing output files
         # or to write to new output files. (Boolean)
         self._append            = append
+
+        self._check             = check
 
         self._validate_values(skip_existing, overwrite)
 
@@ -701,10 +708,10 @@ class Slice2SeriesReshaper(Reshaper):
         for var_name in variables.keys():
             var = variables[var_name]
             if (self._backend == "nio"):
-                size = numpy.dtype(var.typecode()).itemsize
+                size = np.dtype(var.typecode()).itemsize
             else:
                 size = var.dtype.itemsize
-            size = size * numpy.prod(var.shape)
+            size = size * np.prod(var.shape)
             if self._unlimited_dim not in var.dimensions:
                 self._time_invariant_metadata[var_name] = size
             elif var_name in specifier.time_variant_metadata:
@@ -769,7 +776,7 @@ class Slice2SeriesReshaper(Reshaper):
                 # When appending to existing files, we will store the lengths of the
                 # unlimited dimension in all esisting files in this array and then
                 # compare them. 
-                unlim_dim_lengths = numpy.zeros(len(self._time_series_filenames))
+                unlim_dim_lengths = np.zeros(len(self._time_series_filenames))
 
             # Find which files already exist
             existing = []
@@ -806,7 +813,7 @@ class Slice2SeriesReshaper(Reshaper):
                     
 
             if self._append:
-                u = numpy.unique(unlim_dim_lengths)
+                u = np.unique(unlim_dim_lengths)
                 # If all values are the same there should be only 1 unique item
                 if (len(u) != 1):
                     msg = "All existing output files do not have the same length for "
@@ -880,6 +887,14 @@ class Slice2SeriesReshaper(Reshaper):
                     raise ValueError(msg)
 
 
+    def _get_once_info(self, vname):
+        is_once_file = (vname == 'once')
+        write_meta = True
+        write_tser = True
+        if self._use_once_file:
+            write_meta = is_once_file
+            write_tser = not is_once_file
+        return is_once_file, write_meta, write_tser
 
 
 
@@ -967,14 +982,14 @@ class Slice2SeriesReshaper(Reshaper):
         # Defining a simple helper function to determine whether to
         # write time-series data and/or write metadata.  This is useful
         # for adding the ability to write a "once" file
-        def _get_once_info(vname):
-            is_once_file = (vname == 'once')
-            write_meta = True
-            write_tser = True
-            if self._use_once_file:
-                write_meta = is_once_file
-                write_tser = not is_once_file
-            return is_once_file, write_meta, write_tser
+        # def _get_once_info(vname):
+        #     is_once_file = (vname == 'once')
+        #     write_meta = True
+        #     write_tser = True
+        #     if self._use_once_file:
+        #         write_meta = is_once_file
+        #         write_tser = not is_once_file
+        #     return is_once_file, write_meta, write_tser
 
         # NOTE: In the prototype, we check for the existance of the output
         # directory at this point.  If it does not exist, we create it (but
@@ -988,7 +1003,7 @@ class Slice2SeriesReshaper(Reshaper):
         out_files = {}
         out_tvm_vars = {}
         for out_name in tsv_names_loc:
-            is_once_file, write_meta, write_tser = _get_once_info(out_name)
+            is_once_file, write_meta, write_tser = self._get_once_info(out_name)
 
             # Determine the output file name for this variable
             out_filename = self._time_series_filenames[out_name]
@@ -1081,7 +1096,7 @@ class Slice2SeriesReshaper(Reshaper):
         # attributes and to write time-invariant metadata.
         if not self._append:
             for out_name, out_file in out_files.iteritems():
-                is_once_file, write_meta, write_tser = _get_once_info(out_name)
+                is_once_file, write_meta, write_tser = self._get_once_info(out_name)
 
                 # Create the attributes of the time-series variable
                 if write_tser:
@@ -1140,7 +1155,7 @@ class Slice2SeriesReshaper(Reshaper):
 
             # Loop over output variables (i.e. output files corresponding to those variables)
             for out_name, out_file in out_files.iteritems():
-                is_once_file, write_meta, write_tser = _get_once_info(out_name)
+                is_once_file, write_meta, write_tser = self._get_once_info(out_name)
                 
                 if self.tune: start = time.time() # Record the starting time
                 # Loop over the time steps in this slice file
@@ -1164,7 +1179,7 @@ class Slice2SeriesReshaper(Reshaper):
                             self._byte_counts[
                                 'Requested Data'] += requested_nbytes
                             actual_nbytes = self.assumed_block_size \
-                                * numpy.ceil(requested_nbytes / self.assumed_block_size)
+                                * np.ceil(requested_nbytes / self.assumed_block_size)
                             self._byte_counts['Actual Data'] += actual_nbytes
 
                     # Write the time-series variables
@@ -1183,7 +1198,7 @@ class Slice2SeriesReshaper(Reshaper):
                             out_name][:].nbytes
                         self._byte_counts['Requested Data'] += requested_nbytes
                         actual_nbytes = self.assumed_block_size \
-                            * numpy.ceil(requested_nbytes / self.assumed_block_size)
+                            * np.ceil(requested_nbytes / self.assumed_block_size)
                         self._byte_counts['Actual Data'] += actual_nbytes
 
                 if self.tune:
@@ -1222,6 +1237,83 @@ class Slice2SeriesReshaper(Reshaper):
         if self._timecode: self._timer.stop('Complete Conversion Process')
 
         if self.tune: self.print_tuning_data()
+
+        # Now we check the converted data
+        if self._check:
+            if self._backend == "netcdf":
+                # First we flush all the internal buffers to 
+                for out_name, out_file in out_files.iteritems():
+                    out_file.sync()
+            self.validate_tseries_files(out_files)
+
+
+
+    def validate_tseries_files(self, out_files):
+        """
+        Validates the newly created timeseries files by comparing their data
+        against the data in the input files.
+
+        ARGUMENTS
+            out_files - file handles for the open output files (from either backend)
+        """
+
+        if self._simplecomm.is_manager():
+            print("+" + "-"*78 + "+")
+            print("|" + "Checking the timeseries files".center(78) + "|")
+            print("+" + "-"*78 + "+")
+
+
+        series_step_index = int(self.append_start_index) if self._append else 0
+
+        fail_data = defaultdict(int)
+        
+        for j in xrange(self.num_input_files):
+            in_file = self.Open_Input_File(self.input_file_list[j], "r")
+            num_steps = self._get_unlim_dim_len(in_file, self._unlimited_dim)
+            for out_name, out_file in out_files.iteritems():
+                is_once_file, write_meta, write_tser = self._get_once_info(out_name)
+
+                all_okay = True
+                for slice_step_index in range(num_steps):
+                    if write_tser:
+                        in_var  = in_file.variables[out_name]
+                        out_var = out_file.variables[out_name]
+
+                        ndims   = self._get_var_ndims(in_var)
+                        udidx   = in_var.dimensions.index(self._unlimited_dim)
+                        in_slice= [slice(None)] * ndims
+                        in_slice[udidx] = slice_step_index
+                        out_slice = [slice(None)] * ndims
+                        out_slice[udidx] = series_step_index
+                        try:
+                            assert(np.allclose(out_var[tuple(out_slice)], 
+                                               in_var[tuple(in_slice)]))
+                        except AssertionError:
+                            print ("Error")
+                            all_okay = False
+                
+                if not all_okay: fail_data[out_name] += 1
+
+            in_file.close()
+            series_step_index += 1
+
+
+        if not self._simplecomm.is_manager():
+            self._simplecomm._comm.send(fail_data, dest=0, tag=66)
+        else:
+            world_size = self._simplecomm.get_size()
+            for i in range(1, world_size):
+                fail_data.update(self._simplecomm._comm.recv(source=i, tag=66))
+
+            if len(fail_data.keys()) == 0:
+                print("+" + "-"*78 + "+")
+                print("|" + "PASSED! CONVERSION SUCCESSFULL!".center(78) + "|")
+                print("+" + "-"*78 + "+")
+            else:
+                print("|" + "ERROR! CONVERSION NOT SUCCESSFULL! ERROR!".center(78) + "|")
+
+ 
+
 
     
     def print_tuning_data(self):
